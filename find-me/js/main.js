@@ -294,7 +294,7 @@
             if (j.match(/MicroMessenger/i) == "micromessenger") {
                 r[0].style.background = "url(img/logo.png) 10px 10px no-repeat,url(img/share.png) top right no-repeat, #A74343";
                 r[0].style.backgroundSize = "45%, 50%";
-                p.attr("href", "http://www.shiseapp.com/");
+                p.attr("href", "http://mp.weixin.qq.com/s?__biz=MzA3MzAxNjEzOQ==&mid=200605643&idx=2&sn=c9f34e5e1e2928914c1c6a5125242254&scene=4#wechat_redirect");
                 $(".logoed").css({
                     position: "fixed",
                     bottom: 50,
