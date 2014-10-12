@@ -36,5 +36,5 @@ var t=Math.floor(Math.random()*j*j),q=this.getColor(255-this.d),i=this.getLvColo
 },getLvColor:function(j){var o=this.d,p=_.map(j,function(m){return m+o+f;}),i="rgb("+p.join(",")+")";return[p,i];},getGameOverText:function(i){var j=15>i?0:Math.ceil((i-15)/5),p=f>5?this.lvT[j]||_.last(this.lvT):this.lvTsemo[j]||_.last(this.lvTsemo),q=p+"lv"+(i+1),r=2*i;
 return r=r>90?90+0.15*i:r,r=Math.min(r,98),{txt:q,percent:r};}};API.color=d;var k=(function(){var q=document.getElementsByTagName("a");for(var i=0;i<q.length;
 i++){q[i].addEventListener("touchstart",function(){},false);}var j=h.navigator.userAgent.toLowerCase();var r=$("#dialog");var p=$(".btn-boyaa");if(j.match(/MicroMessenger/i)=="micromessenger"){r[0].style.background="url(img/logo.png) 10px 10px no-repeat,url(img/share.png) top right no-repeat, #A74343";
-r[0].style.backgroundSize="45%, 50%";p.attr("href","http://www.shiseapp.com/");$(".shareQQ,.shareWeiBo").hide();$(".logoed").css({position:"fixed",bottom:50,left:"50%","margin-left":"-40px"});
+r[0].style.backgroundSize="45%, 50%";p.attr("href","http://www.shiseapp.com/");$(".logoed").css({position:"fixed",bottom:50,left:"50%","margin-left":"-40px"});
 }else{if(j.match(/(iphone|android)/i)!=null){r[0].style.backgroundSize="45%, 50%";p.hide();}return;}}());}();}(window));
