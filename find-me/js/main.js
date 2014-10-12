@@ -20,7 +20,7 @@
         f = 0;
     ! function () {
         var d = ["img/ad03.png", "img/ad04.png", "img/ad11.png"];
-        var l = ["http://chenhang.info/find-me/", "http://chenhang.info/find-me/", "http://www.shiseapp.com/"];
+        var l = ["http://chenhang.info/find-me/", "http://chenhang.info/find-me/", "http://mp.weixin.qq.com/s?__biz=MzA3MzAxNjEzOQ==&mid=200605643&idx=2&sn=c9f34e5e1e2928914c1c6a5125242254&scene=4#wechat_redirect"];
         var b = function (n) {
             var j = document.createElement("a");
             var i = Math.random() * d.length >> 0;
