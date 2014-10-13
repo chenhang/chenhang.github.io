@@ -9,7 +9,7 @@
                 isOpen: !1,
                 allTime: 5,
                 addTime: 0,
-                lvMap: [2, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8]
+                lvMap: [10, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8]
             }
         },
         e = {
@@ -19,7 +19,7 @@
         },
         f = 0;
     ! function () {
-        var d = ["img/ad03.png", "img/ad04.png", "img/ad11.png"];
+        var d = ["img/ad03.png", "img/ad04.png", "img/ad01.png"];
         var l = ["http://chenhang.info/find-me/", "http://chenhang.info/find-me/", "http://mp.weixin.qq.com/s?__biz=MzA3MzAxNjEzOQ==&mid=200605643&idx=2&sn=c9f34e5e1e2928914c1c6a5125242254&scene=4#wechat_redirect"];
         var b = function (n) {
             var j = document.createElement("a");
