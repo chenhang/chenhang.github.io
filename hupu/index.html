@@ -1,26 +1,55 @@
 <html>
 <head>
-    <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $.getJSON("http://games.mobileapi.hupu.com/3/7.0.4/nba/getNews?client=27d2b8705de540828068756cdcf01ed5a9f4157f&night=0&num=100&direc=next&nid=0&preload=0&token=MjI2NTgxNw==%7CMTQ0NTk0NTIwOQ==%7C1c8e8e17c2c0b0b37b962a419b14aa04", null, (function (data) {
-                console.log(data['result']['data'])
+            $.getJSON("http://games.mobileapi.hupu.com/3/7.0.4/nba/getNews?client=27d2b8705de540828068756cdcf01ed5a9f4157f&night=0&num=1000&direc=next&nid=0&preload=0&token=MjI2NTgxNw==%7CMTQ0NTk0NTIwOQ==%7C1c8e8e17c2c0b0b37b962a419b14aa04", null, (function (data) {
                 data['result']['data'].forEach(function (entry) {
-                    $(".news-links").append('<li><a href="http://kanqiu.hupu.com/s?u=nba/news/'+entry['nid']+'"><span class="news-link", id="'+entry['nid']+'">'+entry['title']+'</span></a></li>');
+                    $(".news-links").append('<li><a href="http://kanqiu.hupu.com/s?u=nba/news/' + entry['nid'] + '"><span class="news-link", id="' + entry['nid'] + '">' + entry['title'] + '</span></a></li>');
+//                    $(".news-links").append(entry['title'] + ': http://kanqiu.hupu.com/s?u=nba/news/' + entry['nid'] +'</br>');
                 })
             }))
             $(".load").click(function () {
                 $.getJSON("http://games.mobileapi.hupu.com/3/7.0.4/nba/getNews?client=27d2b8705de540828068756cdcf01ed5a9f4157f&night=0&num=100&direc=next&nid=0&preload=0&token=MjI2NTgxNw==%7CMTQ0NTk0NTIwOQ==%7C1c8e8e17c2c0b0b37b962a419b14aa04", null, (function (data) {
-                    console.log(data['result']['data'])
+                    console.log(data)
                     data['result']['data'].forEach(function (entry) {
-                        if (!$('#'+entry['nid']).length){
-                            $(".news-links").prepend('<li><a href="http://kanqiu.hupu.com/s?u=nba/news/'+entry['nid']+'"><span class="news-link", id="'+entry['nid']+'">'+entry['title']+'</span></a></li>');
+                        if (!$('#' + entry['nid']).length) {
+                            $(".news-links").prepend('<li><a href="http://kanqiu.hupu.com/s?u=nba/news/' + entry['nid'] + '"><span class="news-link", id="' + entry['nid'] + '">' + entry['title'] + '</span></a></li>');
                         }
                     })
                 }))
             });
         });
     </script>
+    <!--<script>-->
+    <!--$.getJSON("http://games.mobileapi.hupu.com/3/7.0.4/nba/getNews?callback=?",-->
+    <!--{-->
+    <!--client: "27d2b8705de540828068756cdcf01ed5a9f4157f",-->
+    <!--night: 0,-->
+    <!--num: 20,-->
+    <!--direc: "next",-->
+    <!--nid: 0,-->
+    <!--preload: 0,-->
+    <!--token: "MjI2NTgxNw==%7CMTQ0NTk0NTIwOQ==%7C1c8e8e17c2c0b0b37b962a419b14aa04"-->
+    <!--},-->
+    <!--function(data) {-->
+    <!--console.log(data)-->
+    <!--});-->
+    <!--</script>-->
+    <!--<script>-->
+        <!--$.ajax({-->
+            <!--dataType: 'jsonp',-->
+            <!--url: "http://games.mobileapi.hupu.com/3/7.0.4/nba/getNews?client=27d2b8705de540828068756cdcf01ed5a9f4157f&night=0&num=100&direc=next&nid=0&preload=0&token=MjI2NTgxNw==%7CMTQ0NTk0NTIwOQ==%7C1c8e8e17c2c0b0b37b962a419b14aa04",-->
+            <!--success: function (data) {-->
+                <!--console.log('done')-->
+            <!--},-->
+            <!--error: function (a, b, c) {-->
+                <!--console.log(a.responseScript)-->
+                <!--console.log(b)-->
+                <!--console.log(c)-->
+            <!--}-->
+        <!--})-->
+    <!--</script>-->
 </head>
 <body>
 
