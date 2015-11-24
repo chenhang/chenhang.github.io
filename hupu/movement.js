@@ -4,7 +4,7 @@ API_PATH = function (eventId) {
 };
 var event = 2;
 var pause = false;
-var withShadow = false;
+var withShadow = true;
 
 var court = d3.select("svg");
 var width = 94 * 10;
@@ -198,14 +198,6 @@ function drawMovement(data) {
         var home = dataset.home;
         var visitor = dataset.visitor;
         var ball = dataset.ball;
-        if (pause) {
-            if (withShadow) {
-                newPoint(home, 'home', player_radius, home_color);
-                newPoint(visitor, 'visitor', player_radius, visitor_color);
-                newPoint(ball, 'ball', ball_radius, ball_color, 1);
-            }
-            return
-        }
         if (withShadow) {
             newPoint(home, 'home', player_radius, home_color);
             newPoint(visitor, 'visitor', player_radius, visitor_color);
@@ -216,7 +208,9 @@ function drawMovement(data) {
             movePoints(visitor, 'visitor', player_radius);
             movePoints(ball, 'ball', ball_radius);
         }
-
+        if (pause) {
+            return
+        }
         index++;
         d3.timer.flush();
         if (index >= movements.length) {
