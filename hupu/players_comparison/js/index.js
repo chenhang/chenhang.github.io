@@ -32,6 +32,11 @@ d3.select('#base-per-36')
     .on('click', function () {
         draw('base_per_36');
     });
+
+d3.select('#base-defense')
+    .on('click', function () {
+        draw('base_defense');
+    });
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
