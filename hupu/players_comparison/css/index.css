@@ -95,15 +95,9 @@ button:active {
 
 .cell {
     float: left;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100px;
-    height: 22px;
+    height: 44px;
 }
 
-.col-0 {
-    width: 280px;
-}
 
 .chart > svg, .chart > canvas {
     /*font: 14px sans-serif;*/

@@ -42,6 +42,10 @@ d3.select('#speed-distance')
     .on('click', function () {
         draw('speed_distance');
     });
+d3.select('#passing')
+    .on('click', function () {
+        draw('passing');
+    });
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
@@ -61,7 +65,6 @@ function draw(fileName) {
             .selectAll(".dimension")
             .on("click", change_color);
 
-
         var grid = d3.divgrid();
         d3.select("#grid")
             .datum(data.slice(0, 400))
@@ -72,6 +75,9 @@ function draw(fileName) {
                     graph.highlight([d])
                 }
             });
+        var cellWidth = 100.0/(Object.keys(dataSet[0]).length);
+        d3.selectAll('.cell')
+            .style('width', cellWidth + '%');
 
         graph.on("brush", function (d) {
             d3.select("#grid")
