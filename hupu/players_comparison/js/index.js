@@ -53,10 +53,9 @@ function draw(fileName) {
             .call(grid)
             .selectAll(".row")
             .on({
-                "mouseover": function (d) {
+                "click": function (d) {
                     graph.highlight([d])
                 },
-                "mouseout": graph.unhighlight
             });
 
         graph.on("brush", function (d) {
@@ -65,10 +64,9 @@ function draw(fileName) {
                 .call(grid)
                 .selectAll(".row")
                 .on({
-                    "mouseover": function (d) {
+                    "click": function (d) {
                         graph.highlight([d])
                     },
-                    "mouseout": graph.unhighlight
                 });
         });
     });
@@ -98,7 +96,10 @@ function draw(fileName) {
         .on("click", function () {
             callUpdate(dataSet);
         });
-
+    d3.select("#reset-highlight")
+        .on("click", function () {
+            graph.unhighlight()
+        });
 
     var color_scale = d3.scale.linear()
         .domain([-2, -0.5, 0.5, 2])
