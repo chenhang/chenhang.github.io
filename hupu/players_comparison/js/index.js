@@ -7,12 +7,12 @@ d3.select('#shoot-frequency')
         d3.select('#shoot-frequency').classed( "hover", true );
         draw('freq');
     });
-d3.select('#closest-defender-range-10-plus')
+d3.select('#defender-range-out')
     .on('click', function () {
         draw('defender_range_out');
     });
 
-d3.select('#closest-defender-range')
+d3.select('#defender-range')
     .on('click', function () {
         draw('defender_range');
     });
@@ -36,6 +36,11 @@ d3.select('#base-per-36')
 d3.select('#base-defense')
     .on('click', function () {
         draw('base_defense');
+    });
+
+d3.select('#speed-distance')
+    .on('click', function () {
+        draw('speed_distance');
     });
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
