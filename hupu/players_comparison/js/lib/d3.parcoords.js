@@ -445,7 +445,7 @@ pc.resize = function() {
 
 // highlight an array of data
 pc.highlight = function(data) {
-  pc.clear("highlight");
+  //pc.clear("highlight");
   d3.select(canvas.foreground).classed("faded", true);
   data.forEach(path_highlight);
   events.highlight.call(this,data);

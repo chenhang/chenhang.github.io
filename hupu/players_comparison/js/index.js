@@ -5,27 +5,32 @@ d3.select('#shoot-frequency')
     .on('click', function () {
         d3.selectAll('.category').classed( "hover", false );
         d3.select('#shoot-frequency').classed( "hover", true );
-        draw('players_shoot_frequency');
+        draw('freq');
     });
 d3.select('#closest-defender-range-10-plus')
     .on('click', function () {
-        draw('players_closest_defender_range_10_plus');
+        draw('defender_range_out');
     });
 
 d3.select('#closest-defender-range')
     .on('click', function () {
-        draw('players_closest_defender_range');
+        draw('defender_range');
     });
 
 d3.select('#touch-range')
     .on('click', function () {
-        draw('players_touch_range');
+        draw('touch_time_range');
     });
 
 d3.select('#dribble-range')
     .on('click', function () {
 
-        draw('players_dribble_range');
+        draw('dribbles_range');
+    });
+
+d3.select('#base-per-36')
+    .on('click', function () {
+        draw('base_per_36');
     });
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
@@ -55,7 +60,7 @@ function draw(fileName) {
             .on({
                 "click": function (d) {
                     graph.highlight([d])
-                },
+                }
             });
 
         graph.on("brush", function (d) {

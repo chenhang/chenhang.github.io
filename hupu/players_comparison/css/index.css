@@ -25,7 +25,7 @@ text {
     float: left;
     top: 50px;
     width: 100%;
-    height: 500px;
+    height: 540px;
 }
 
 #title {
@@ -34,21 +34,6 @@ text {
     color: white;
 }
 
-#title div.large, #title span.large {
-    font-size: 36px;
-}
-
-footer {
-    color: #666;
-}
-
-#desc {
-    position: relative;
-    float: right;
-    z-index: -999;
-    left: 380px;
-    width: 400px;
-}
 
 button {
     background: none repeat scroll 0 0 #666666;
@@ -83,7 +68,8 @@ button:active {
     clear: both;
     position: relative;
     top: 60px;
-    left: 15px
+    left: 15px;
+    width: 100%;
 }
 
 .row, .header {
@@ -92,7 +78,7 @@ button:active {
     line-height: 18px;
     height: 20px;
     margin: 5px;
-    width: 1120px
+    width: 100%
 }
 
 .row:hover {
