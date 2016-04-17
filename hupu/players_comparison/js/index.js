@@ -51,6 +51,8 @@ function draw(fileName) {
         d3.select('#wrapper').selectAll("*").remove();
         d3.select('#grid').selectAll("*").remove();
         dataSet = data;
+        var cellWidthPct = 100.0/(Object.keys(dataSet[0]).length) + '%';
+
         graph = d3.parcoords()('#wrapper')
             .data(data)
             .alpha(0.4)
@@ -75,11 +77,10 @@ function draw(fileName) {
                     graph.highlight([d])
                 }
             });
-        var cellWidth = 100.0/(Object.keys(dataSet[0]).length);
-        d3.selectAll('.cell')
-            .style('width', cellWidth + '%');
 
         graph.on("brush", function (d) {
+            d3.selectAll('.cell')
+                .style('width', cellWidthPct);
             d3.select("#grid")
                 .datum(d.slice(0, 400))
                 .call(grid)
@@ -90,6 +91,8 @@ function draw(fileName) {
                     },
                 });
         });
+        d3.selectAll('.cell')
+            .style('width', cellWidthPct);
     });
 
     d3.select("#keep-data")
@@ -134,7 +137,6 @@ function draw(fileName) {
                 return d == dimension;
             })
             .style("font-weight", "bold");
-
         graph.color(zcolor(graph.data(), dimension)).render()
     }
 
