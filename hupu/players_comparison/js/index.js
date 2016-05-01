@@ -1,10 +1,8 @@
 var graph;
 var dataSet;
 
-d3.select('#shoot-frequency')
-    .on('click', function () {
-        draw('freq');
-    });
+d3.select('#shot-freq').on('click', function () {draw('shot_freq');});
+d3.select('#play-freq').on('click', function () {draw('play_freq');});
 d3.select('#defender-range-out')
     .on('click', function () {
         draw('defender_range_out');
@@ -15,12 +13,12 @@ d3.select('#defender-range')
         draw('defender_range');
     });
 
-d3.select('#touch-range')
+d3.select('#touch-time-range')
     .on('click', function () {
         draw('touch_time_range');
     });
 
-d3.select('#dribble-range')
+d3.select('#dribbles-range')
     .on('click', function () {
 
         draw('dribbles_range');
@@ -45,20 +43,18 @@ d3.select('#passing')
         draw('passing');
     });
 
-d3.select('#isolation')
-    .on('click', function () {
-        draw('isolation');
-    });
+d3.select('#transition').on('click', function () {draw('transition');});
+d3.select('#isolation').on('click', function () {draw('isolation');});
+d3.select('#pr-ball-handler').on('click', function () {draw('pr_ball_handler');});
+d3.select('#pr-rollman').on('click', function () {draw('pr_rollman');});
+d3.select('#postup').on('click', function () {draw('postup');});
+d3.select('#spotup').on('click', function () {draw('spotup');});
+d3.select('#handoff').on('click', function () {draw('handoff');});
+d3.select('#cut').on('click', function () {draw('cut');});
+d3.select('#off-screen').on('click', function () {draw('off_screen');});
+d3.select('#off-rebound').on('click', function () {draw('off_rebound');});
 
-d3.select('#spot-up')
-    .on('click', function () {
-        draw('spot_up');
-    });
-
-d3.select('#rim-defense')
-    .on('click', function () {
-        draw('rim_defense');
-    });
+d3.select('#rim-defense').on('click', function () {draw('rim_defense');});
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
