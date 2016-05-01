@@ -264,7 +264,6 @@ Jason Terry,0.67,0.06,0.09,0.12,0.06
 Markel Brown,0.47,0.2,0.12,0.18,0.04
 Raul Neto,0.35,0.11,0.15,0.26,0.13
 Clint Capela,0.84,0.12,0.03,0.02
-James Ennis,0.6,0.15,0.11,0.14
 Jerian Grant,0.25,0.15,0.1,0.29,0.22
 Seth Curry,0.45,0.1,0.1,0.14,0.22
 John Henson,0.63,0.3,0.07,0.01
@@ -291,12 +290,10 @@ Timofey Mozgov,0.83,0.1,0.05,0.03,0.0
 Aron Baynes,0.89,0.08,0.02,0.01
 Lavoy Allen,0.88,0.07,0.05,0.01
 Anthony Tolliver,0.93,0.05,0.01,0.0
-Tim Frazier,0.17,0.11,0.11,0.3,0.32
 Joakim Noah,0.74,0.1,0.13,0.04
 Chris McCullough,0.67,0.23,0.08,0.02
 Sasha Vujacic,0.69,0.12,0.09,0.08,0.02
 Beno Udrih,0.28,0.17,0.11,0.21,0.23
-JJ Hickson,0.67,0.17,0.08,0.08
 Jonathon Simmons,0.4,0.14,0.17,0.2,0.09
 Richaun Holmes,0.79,0.17,0.03,0.01
 Troy Daniels,0.71,0.13,0.1,0.04,0.03
@@ -332,11 +329,9 @@ John Jenkins,0.43,0.21,0.09,0.19,0.08
 Jonas Jerebko,0.73,0.16,0.09,0.03
 Shabazz Napier,0.32,0.14,0.09,0.22,0.23
 Quincy Acy,0.83,0.11,0.06,0.01
-Chase Budinger,0.63,0.15,0.12,0.09,0.01
 Brandon Rush,0.66,0.15,0.11,0.08,0.01
 Joe Ingles,0.64,0.19,0.08,0.09,0.01
 Noah Vonleh,0.68,0.14,0.1,0.07,0.01
-Ray McCallum,0.41,0.09,0.09,0.21,0.2
 Josh McRoberts,0.6,0.11,0.13,0.15,0.02
 Solomon Hill,0.57,0.11,0.13,0.19
 James Anderson,0.53,0.1,0.15,0.17,0.05
@@ -347,7 +342,6 @@ Drew Gooden,0.73,0.14,0.09,0.04,0.01
 Willie Reed,0.84,0.12,0.02,0.03
 Glenn Robinson,0.54,0.16,0.15,0.13,0.02
 Kelly Oubre,0.55,0.1,0.13,0.14,0.07
-Phil Pressey,0.12,0.08,0.07,0.39,0.35
 Axel Toupane,0.84,0.11,0.04
 Kyle Singler,0.74,0.14,0.09,0.04
 Jeff Withey,0.87,0.1,0.03
@@ -362,7 +356,6 @@ Kirk Hinrich,0.32,0.12,0.15,0.26,0.16
 Luc Mbah a Moute,0.7,0.18,0.08,0.04
 Chris Johnson,0.6,0.16,0.13,0.12
 Tarik Black,0.68,0.24,0.05,0.02,0.01
-Chris Andersen,0.83,0.13,0.03,0.01
 Reggie Bullock,0.77,0.05,0.14,0.04
 Andre Miller,0.21,0.12,0.16,0.27,0.24
 Kostas Papanikolaou,0.55,0.14,0.2,0.09,0.03
@@ -370,9 +363,7 @@ Sonny Weems,0.57,0.15,0.11,0.14,0.04
 Pablo Prigioni,0.33,0.12,0.1,0.18,0.27
 Cristiano Felicio,0.83,0.11,0.04,0.01
 Salah Mejri,0.85,0.08,0.05,0.03
-Jason Thompson,0.64,0.17,0.11,0.06,0.02
 Lamar Patterson,0.71,0.06,0.08,0.1,0.05
-Ryan Hollins,0.8,0.14,0.05,0.01
 Kendrick Perkins,0.61,0.2,0.08,0.11
 Nick Collison,0.75,0.19,0.06
 Sergey Karasev,0.7,0.14,0.07,0.08,0.01

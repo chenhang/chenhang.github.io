@@ -95,7 +95,7 @@ button:active {
 
 .cell {
     float: left;
-    height: 44px;
+    padding: 10px 0;
 }
 
 

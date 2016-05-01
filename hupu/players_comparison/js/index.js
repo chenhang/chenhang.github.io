@@ -3,8 +3,6 @@ var dataSet;
 
 d3.select('#shoot-frequency')
     .on('click', function () {
-        d3.selectAll('.category').classed( "hover", false );
-        d3.select('#shoot-frequency').classed( "hover", true );
         draw('freq');
     });
 d3.select('#defender-range-out')
@@ -46,6 +44,21 @@ d3.select('#passing')
     .on('click', function () {
         draw('passing');
     });
+
+d3.select('#isolation')
+    .on('click', function () {
+        draw('isolation');
+    });
+
+d3.select('#spot-up')
+    .on('click', function () {
+        draw('spot_up');
+    });
+
+d3.select('#rim-defense')
+    .on('click', function () {
+        draw('rim_defense');
+    });
 function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
@@ -60,7 +73,7 @@ function draw(fileName) {
             .rate(5)
             .render()
             .interactive()
-            .brushable();
+            .brushable()
 
 
         graph.svg
@@ -79,8 +92,7 @@ function draw(fileName) {
             });
 
         graph.on("brush", function (d) {
-            d3.selectAll('.cell')
-                .style('width', cellWidthPct);
+            d3.selectAll('.cell').style('width', cellWidthPct);
             d3.select("#grid")
                 .datum(d.slice(0, 400))
                 .call(grid)
@@ -91,8 +103,11 @@ function draw(fileName) {
                     },
                 });
         });
-        d3.selectAll('.cell')
-            .style('width', cellWidthPct);
+        graph.on("render", function () {
+            d3.selectAll('.cell').style('width', cellWidthPct);
+        })
+        d3.selectAll('.cell').style('width', cellWidthPct);
+
     });
 
     d3.select("#keep-data")
