@@ -119,6 +119,7 @@ function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
         d3.select('#grid').selectAll("*").remove();
+        d3.select('#title').text(descriptions[fileName] || fileName);
         dataSet = data;
         var cellWidthPct = 100.0/(Object.keys(dataSet[0]).length) + '%';
 
@@ -129,7 +130,7 @@ function draw(fileName) {
             .rate(5)
             .render()
             .interactive()
-            .brushable()
+            .brushable();
 
 
         graph.svg
