@@ -119,9 +119,8 @@ function draw(fileName) {
     d3.csv('data/' + fileName + '.csv', function (data) {
         d3.select('#wrapper').selectAll("*").remove();
         d3.select('#grid').selectAll("*").remove();
-        d3.select('#title').text(descriptions[fileName] || fileName);
         dataSet = data;
-        var cellWidthPct = 100.0 / (Object.keys(dataSet[0]).length) + '%';
+        var cellWidthPct = 100.0/(Object.keys(dataSet[0]).length) + '%';
 
         graph = d3.parcoords()('#wrapper')
             .data(data)
@@ -130,7 +129,7 @@ function draw(fileName) {
             .rate(5)
             .render()
             .interactive()
-            .brushable();
+            .brushable()
 
 
         graph.svg
@@ -148,7 +147,6 @@ function draw(fileName) {
                 }
             });
 
-
         graph.on("brush", function (d) {
             d3.selectAll('.cell').style('width', cellWidthPct);
             d3.select("#grid")
@@ -158,89 +156,81 @@ function draw(fileName) {
                 .on({
                     "click": function (d) {
                         graph.highlight([d])
-                    }
+                    },
                 });
         });
-
-
         graph.on("render", function () {
             d3.selectAll('.cell').style('width', cellWidthPct);
-        });
+        })
         d3.selectAll('.cell').style('width', cellWidthPct);
 
+    });
 
-        d3.select("#keep-data")
-            .on("click", function () {
-                new_data = graph.brushed();
-                if (new_data.length == 0) {
-                    alert("Please do not select all the data when keeping/excluding");
-                    return false;
-                }
-                callUpdate(new_data);
-            });
-
-
-        d3.select("#exclude-data")
-            .on("click", function () {
-                new_data = _.difference(dataSet, graph.brushed());
-                if (new_data.length == 0) {
-                    alert("Please do not select all the data when keeping/excluding");
-                    return false;
-                }
-                callUpdate(new_data);
-            });
-
-
-        d3.select("#reset-data")
-            .on("click", function () {
-                callUpdate(dataSet);
-            });
-
-        d3.select("#reset-highlight")
-            .on("click", function () {
-                graph.unhighlight();
-            });
-
-
-        var color_scale = d3.scale.linear()
-            .domain([-2, -0.5, 0.5, 2])
-            .range(["#DE5E60", "steelblue", "steelblue", "#98df8a"])
-            .interpolate(d3.interpolateLab);
-
-        function change_color(dimension) {
-            graph.svg.selectAll(".dimension")
-                .style("font-weight", "normal")
-                .filter(function (d) {
-                    return d == dimension;
-                })
-                .style("font-weight", "bold");
-            graph.color(zcolor(graph.data(), dimension)).render()
-        }
-
-        function zcolor(col, dimension) {
-            var z = zscore(_(col).pluck(dimension).map(parseFloat));
-            return function (d) {
-                var value = d[dimension] || 0;
-                return color_scale(z(value))
+    d3.select("#keep-data")
+        .on("click", function () {
+            new_data = graph.brushed();
+            if (new_data.length == 0) {
+                alert("Please do not select all the data when keeping/excluding");
+                return false;
             }
+            callUpdate(new_data);
+        });
+
+    d3.select("#exclude-data")
+        .on("click", function () {
+            new_data = _.difference(dataSet, graph.brushed());
+            if (new_data.length == 0) {
+                alert("Please do not select all the data when keeping/excluding");
+                return false;
+            }
+            callUpdate(new_data);
+        });
+
+
+    d3.select("#reset-data")
+        .on("click", function () {
+            callUpdate(dataSet);
+        });
+    d3.select("#reset-highlight")
+        .on("click", function () {
+            graph.unhighlight()
+        });
+
+    var color_scale = d3.scale.linear()
+        .domain([-2, -0.5, 0.5, 2])
+        .range(["#DE5E60", "steelblue", "steelblue", "#98df8a"])
+        .interpolate(d3.interpolateLab);
+
+    function change_color(dimension) {
+        graph.svg.selectAll(".dimension")
+            .style("font-weight", "normal")
+            .filter(function (d) {
+                return d == dimension;
+            })
+            .style("font-weight", "bold");
+        graph.color(zcolor(graph.data(), dimension)).render()
+    }
+
+    function zcolor(col, dimension) {
+        var z = zscore(_(col).pluck(dimension).map(parseFloat));
+        return function (d) {
+            var value = d[dimension] || 0;
+            return color_scale(z(value))
+        }
+    };
+
+    function zscore(col) {
+        var _col = col.filter(function(e){ return e === 0 || e });
+        var n = _col.length,
+            mean = _(_col).mean(),
+            sigma = _(_col).stdDeviation();
+
+        return function (d) {
+            return (d - mean) / sigma;
         };
+    };
 
-        function zscore(col) {
-            var _col = col.filter(function (e) {
-                return e === 0 || e;
-
-                var n = _col.length,
-                    mean = _(_col).mean(),
-                    sigma = _(_col).stdDeviation();
-
-                return function (d) {
-                    return (d - mean) / sigma;
-                };
-            });
-        }
-
-        function callUpdate(data) {
-            graph.data(data).brush();
-        }
-    })
-};
+    function callUpdate(data) {
+        graph.data(data).brush();
+    }
+}

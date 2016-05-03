@@ -55,11 +55,6 @@ button:hover {
     color: #FFFFFF;
 }
 
-button:active {
-    background: none repeat scroll 0 0 #DE5E60;
-    color: #FFFFFF;
-}
-
 /* data table styles */
 #grid {
     height: 198px;
