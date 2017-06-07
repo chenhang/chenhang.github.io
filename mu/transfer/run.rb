@@ -25,7 +25,7 @@ def get_transfer_tweets(client)
   seen_posts = transfer_data['seen_posts'] || []
   h = Nokogiri::HTML(get(1))
   last_page = h.css('.PageNav').css('a').reject { |t| t.text.include?('Next') }.last.text.to_i
-  pages = (1..last_page).to_a - old_pages + [132,133,134,135]
+  pages = (1..last_page).to_a - old_pages
   pages.each do |page|
     puts(page)
     h = Nokogiri::HTML(get(page))
@@ -33,7 +33,7 @@ def get_transfer_tweets(client)
     posts.each do |post|
       body = post.css('blockquote')
       link = URL_BASE + post.css('.hashPermalink').attribute('href').text
-    #   next if seen_posts.include?(link)
+      next if seen_posts.include?(link)
       puts(link)
       main_text = body.css('.messageText').css(' > text()').text.strip.presence
       tweet_urls = post.children.css('.twitter-tweet').children.css('a').map { |t| t.attribute('href').text }
