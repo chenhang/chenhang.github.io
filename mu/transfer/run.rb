@@ -33,7 +33,7 @@ def get_transfer_tweets(client)
     posts.each do |post|
       body = post.css('blockquote')
       link = URL_BASE + post.css('.hashPermalink').attribute('href').text
-    #   next if seen_posts.include?(link)
+      next if seen_posts.include?(link)
       puts(link)
       main_text = body.css('.messageText').css(' > text()').text
       tweet_urls = post.children.css('.twitter-tweet').children.css('a').map { |t| t.attribute('href').text }
@@ -42,9 +42,7 @@ def get_transfer_tweets(client)
           puts(url)
           tweet = client.status(url)
           tweet_data = (data[tweet.id] || {}).merge(tweet.attrs)
-          p tweet_data['comments']
           tweet_data['comments'] = (tweet_data['comments'] || []).append(main_text).uniq
-          p tweet_data['comments']
           tweet_data['floor'] ||= post.css('.hashPermalink').text.gsub('#', '')
           tweet_data['link'] ||= link
           tweet_data['text'] = tweet.full_text
