@@ -36,14 +36,15 @@ def get_transfer_tweets(client)
     #   next if seen_posts.include?(link)
       puts(link)
       main_text = body.css('.messageText').css(' > text()').text
-      # quote_text = body.css('.quote')[0].css(' > text()').text
       tweet_urls = post.children.css('.twitter-tweet').children.css('a').map { |t| t.attribute('href').text }
       tweet_urls.each do |url|
         begin
           puts(url)
           tweet = client.status(url)
           tweet_data = (data[tweet.id] || {}).merge(tweet.attrs)
+          p tweet_data['comments']
           tweet_data['comments'] = (tweet_data['comments'] || []).append(main_text).uniq
+          p tweet_data['comments']
           tweet_data['floor'] ||= post.css('.hashPermalink').text.gsub('#', '')
           tweet_data['link'] ||= link
           tweet_data['text'] = tweet.full_text
