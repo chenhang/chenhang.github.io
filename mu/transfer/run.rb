@@ -25,7 +25,7 @@ def get_transfer_tweets(client)
   seen_posts = transfer_data['seen_posts'] || []
   h = Nokogiri::HTML(get(1))
   last_page = h.css('.PageNav').css('a').reject { |t| t.text.include?('Next') }.last.text.to_i
-  pages = (1..last_page).to_a - old_pages + []
+  pages = (1..last_page).to_a - old_pages
   pages.each do |page|
     puts(page)
     h = Nokogiri::HTML(get(page))
