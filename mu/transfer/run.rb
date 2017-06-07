@@ -33,7 +33,7 @@ def get_transfer_tweets(client)
     posts.each do |post|
       body = post.css('blockquote')
       link = URL_BASE + post.css('.hashPermalink').attribute('href').text
-      next if seen_posts.include?(link)
+    #   next if seen_posts.include?(link)
       puts(link)
       main_text = body.css('.messageText').css(' > text()').text.strip.presence
       tweet_urls = post.children.css('.twitter-tweet').children.css('a').map { |t| t.attribute('href').text }
@@ -41,7 +41,7 @@ def get_transfer_tweets(client)
         begin
           puts(url)
           tweet = client.status(url)
-          tweet_data = (data[tweet.id] || {}).merge(tweet.attrs)
+          tweet_data = (data[tweet.id.to_s] || {}).merge(tweet.attrs)
           comments = (tweet_data['comments'] || [])
           comments.append(main_text)
           tweet_data['comments'] = comments.uniq.compact
@@ -49,7 +49,7 @@ def get_transfer_tweets(client)
           tweet_data['link'] ||= link
           tweet_data['text'] = tweet.full_text
           tweet_data['in_reply_to'] ||= client.status(tweet.in_reply_to_status_id).attrs rescue nil
-          data[tweet.id] = tweet_data
+          data[tweet.id.to_s] = tweet_data
         rescue Twitter::Error::NotFound => e
           puts "Not Found #{url}"
           next
