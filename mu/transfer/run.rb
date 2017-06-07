@@ -42,7 +42,10 @@ def get_transfer_tweets(client)
           puts(url)
           tweet = client.status(url)
           tweet_data = (data[tweet.id] || {}).merge(tweet.attrs)
+          p tweet_data['comments']
+          p '___'
           tweet_data['comments'] = (tweet_data['comments'] || []).append(main_text).uniq.compact
+          p tweet_data['comments']
           tweet_data['floor'] ||= post.css('.hashPermalink').text.gsub('#', '')
           tweet_data['link'] ||= link
           tweet_data['text'] = tweet.full_text
