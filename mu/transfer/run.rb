@@ -31,6 +31,7 @@ def get_transfer_tweets(client)
     h = Nokogiri::HTML(get(page))
     posts = h.css('li.message')
     posts.each do |post|
+      puts(post.css('.hashPermalink').text.gsub('#', ''))
       body = post.css('blockquote')
       link = URL_BASE + post.css('.hashPermalink').attribute('href').text
       next if seen_posts.include?(link)
