@@ -135,9 +135,10 @@ body {
               var mainText = $('<h3>').append('<strong>' + tweet['user']['name'] + '</strong>: ' + tweet['text'])
 
               var content = $('<div>').attr('class', 'timeline-event-copy')
-              content.append(
-                  $('<p>').attr('class', 'timeline-event-thumbnail').append(index)
-              ).append(mainText)
+              var title = $('<p>').attr('class', 'timeline-event-thumbnail')
+              title.append("#" + index + " ")
+              title.append($('<a>').attr('href', tweet['link']).append('PostLink'))
+              content.append(title).append(mainText)
               if (tweet['in_reply_to']) {
                   content.append($('<h4>').append('in reply to <strong>' + tweet['in_reply_to']['user']['name'] + '</strong>: ' + tweet['in_reply_to']['text']))
               }
