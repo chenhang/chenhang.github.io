@@ -25,13 +25,12 @@ def get_transfer_tweets(client)
   seen_posts = transfer_data['seen_posts'] || []
   h = Nokogiri::HTML(get(1))
   last_page = h.css('.PageNav').css('a').reject { |t| t.text.include?('Next') }.last.text.to_i
-  pages = (1..last_page).to_a - old_pages
+  pages = (1..last_page).to_a - old_pages + []
   pages.each do |page|
     puts(page)
     h = Nokogiri::HTML(get(page))
     posts = h.css('li.message')
     posts.each do |post|
-      puts(post.css('.hashPermalink').text.gsub('#', ''))
       body = post.css('blockquote')
       link = URL_BASE + post.css('.hashPermalink').attribute('href').text
       next if seen_posts.include?(link)
@@ -51,6 +50,7 @@ def get_transfer_tweets(client)
           tweet_data['in_reply_to'] ||= client.status(tweet.in_reply_to_status_id).attrs rescue nil
           data[tweet.id] = tweet_data
         rescue Twitter::Error::NotFound => e
+          puts "Not Found #{url}"
           next
         end
       end
