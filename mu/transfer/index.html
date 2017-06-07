@@ -18,7 +18,9 @@ body {
   line-height: 1.5;
   letter-spacing: 0.05em;
 }
-
+a {
+    color: white;
+}
 /* Layout */
 * {
   -moz-box-sizing: border-box;
@@ -136,8 +138,7 @@ body {
 
               var content = $('<div>').attr('class', 'timeline-event-copy')
               var title = $('<p>').attr('class', 'timeline-event-thumbnail')
-              title.append("#" + index + " ")
-              title.append($('<a>').attr('href', tweet['link']).append('PostLink'))
+              title.append($('<a>').attr('href', tweet['link']).append("#" + index))
               content.append(title).append(mainText)
               if (tweet['in_reply_to']) {
                   content.append($('<h4>').append('in reply to <strong>' + tweet['in_reply_to']['user']['name'] + '</strong>: ' + tweet['in_reply_to']['text']))
