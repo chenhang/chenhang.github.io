@@ -73,5 +73,5 @@ end
 
 get_transfer_tweets(client)
 `git add *`
-`git commit -m 'CHG update transfer'`
+`git commit -m 'CHG update transfer #{Time.now}'`
 `git push`
