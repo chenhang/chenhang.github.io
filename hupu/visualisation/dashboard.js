@@ -58,7 +58,7 @@ function drawComparedPlayer() {
         right = 100,
         bottom = 100,
         left = 100;
-    var maxValue = 0.5,
+    var maxValue = 30,
         data = [],
         names = [];
     selectedPlayers.slice(Math.max(0, selectedPlayers.length - 10)).forEach(function (id, i) {
