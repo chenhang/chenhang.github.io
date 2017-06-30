@@ -51,7 +51,9 @@ function drawPlayerWithType(i) {
         left = 100;
     var maxValue = 0.5;
     var player = radarData[i];
-    document.getElementsByClassName('playerClusterTitle')[0].innerHTML = player[0].name + ', ' + player[0].team + ', Type: ' + player[0].type;
+    var playerInfo = "<strong><span style='color:" + d3.scale.category10().range()[1] + "'>" + player[0].name + ', ' + player[0].team + '</strong></span>';
+    var typeInfo = "<strong><span style='color:" + d3.scale.category10().range()[0] + "'>Player Type: " +  player[0].type + '</strong></span>';
+    document.getElementsByClassName('playerClusterTitle')[0].innerHTML = playerInfo + ', ' + typeInfo;
     drawDashboard([clusters[player[0].type], player], 'playerCluster', size, _top, right, bottom, left, maxValue);
 }
 
