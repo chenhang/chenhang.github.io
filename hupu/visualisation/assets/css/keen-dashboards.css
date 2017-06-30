@@ -164,7 +164,7 @@ body.application .return-link:hover,
 .radar-tip:after {
   box-sizing: border-box;
   display: inline;
-  font-size: 10px;
+  font-size: 11px;
   width: 100%;
   line-height: 1;
   color: rgba(0, 0, 0, 0.8);
@@ -175,7 +175,7 @@ body.application .return-link:hover,
 
 /* Style northward tooltips differently */
 .radar-tip.n:after {
-  margin: -1px 0 0 0;
+  margin: -3px 0 0 0;
   top: 100%;
   left: 0;
 }

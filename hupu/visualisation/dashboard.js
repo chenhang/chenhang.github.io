@@ -58,12 +58,12 @@ function drawComparedPlayer() {
         right = 100,
         bottom = 100,
         left = 100;
-    var maxValue = 30,
+    var maxValue = 0.5,
         data = [],
         names = [];
-    selectedPlayers.forEach(function (id) {
+    selectedPlayers.slice(Math.max(0, selectedPlayers.length - 10)).forEach(function (id, i) {
         data.push(radarData[id]);
-        names.push(radarData[id][0].name);
+        names.push("<strong><span style='color:" + d3.scale.category10().range()[i] + "'>" + radarData[id][0].name + "</span></strong>");
     });
     document.getElementsByClassName('comparedPlayersTitle')[0].innerHTML = 'Compare: ' + names.join(', ');
     drawDashboard(data, 'comparedPlayers', size, _top, right, bottom, left, maxValue);
@@ -199,5 +199,3 @@ function drawDashboard(data, className, size, _top, right, bottom, left, maxValu
     //Call function to draw the Radar chart
     RadarChart(className, data, radarChartOptions);
 }
-
-

@@ -262,7 +262,7 @@ function RadarChart(className, data, options) {
             if (d.name) {
                 name = '(' + d.name + ')'
             }
-            return "<strong>" + d.axis +":</strong> <span style='color:red'>" + String(parseFloat(d.originValue).toFixed(2)) + name + "</span>";
+            return "<strong>" + d.axis +":</strong> <span style='color:red'>" + String(parseFloat(d.originValue).toFixed(2))  + "</span> " + name;
         });
     svg.call(tip);
     //Append a set of invisible circles on top for the mouseover pop-up
