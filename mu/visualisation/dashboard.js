@@ -179,12 +179,22 @@ function drawCompareClusters(event) {
         var maxValue = 0.5;
         var comparedClusters = [];
 
-
+        var colors =  d3.scale.category10().range();
+        var newTitle = [];
+        var i = 0;
         clusterIds.forEach(function (id) {
             if (clusters[parseInt(id)]) {
                 comparedClusters.push(clusters[parseInt(id)])
+                var typeInfo = "<strong><span style='color:" + colors[i] + "'>Type " +  id + '</strong></span>';
+                i += 1;
+                newTitle.push(typeInfo);
             }
         });
+        if (newTitle.length == 0) {
+            document.getElementsByClassName('clustersComparedTitle')[0].innerHTML = 'Types';
+        } else {
+            document.getElementsByClassName('clustersComparedTitle')[0].innerHTML = newTitle.join(', ');
+        }
         drawDashboard(comparedClusters, 'comparedClusters', size, _top, right, bottom, left, maxValue);
     }
 }
