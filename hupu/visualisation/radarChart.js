@@ -15,7 +15,7 @@ function RadarChart(className, data, options) {
         labelFactor: 1.25, 	//How much farther than the radius of the outer circle should the labels be placed
         wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
         opacityArea: 0.35, 	//The opacity of the area of the blob
-        dotRadius: 6, 			//The size of the colored circles of each blog
+        dotRadius: 3, 			//The size of the colored circles of each blog
         opacityCircles: 0.1, 	//The opacity of the circles of each blob
         strokeWidth: 2, 		//The width of the stroke around each blob
         roundStrokes: false,	//If true the area and stroke will follow a round path (cardinal-closed)
@@ -260,9 +260,9 @@ function RadarChart(className, data, options) {
         .html(function(d) {
             var name = "";
             if (d.name) {
-                name = '(' + d.name + ')'
+                name = d.name + ' '
             }
-            return "<strong>" + d.axis +":</strong> <span style='color:red'>" + String(parseFloat(d.originValue).toFixed(2))  + "</span> " + name;
+            return name + "<strong>" + d.axis +":</strong> <span style='color:red'>" + String(parseFloat(d.originValue).toFixed(2))  + "</span> ";
         });
     svg.call(tip);
     //Append a set of invisible circles on top for the mouseover pop-up

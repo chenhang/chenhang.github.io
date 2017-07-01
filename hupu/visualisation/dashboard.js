@@ -1,9 +1,9 @@
 var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
     ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
     // HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Key Passes', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
-    HEADERS = ['Transition', 'Isolation', 'PRBallHandler', 'PRRollman', 'Postup', 'Spotup', 'Handoff', 'Cut', 'OffScreen', 'OffRebound'];
+HEADERS = ["Post-Up","P&R Ball Handler", "Isolation", "Transition", "Offscreen", "Handoff", "Spot-Up", "P&R Roll Man", "Cut", "Putbacks"];
 
-var TABLE_HEADERS = ['Name', 'Team', 'Type'],
+var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
     radarColors = d3.scale.category10().range(),
     maxValue = 40,
     clusters, playerData, displayedData, radarData,
@@ -125,17 +125,17 @@ function parsePlayerRadarData(originalData) {
     var radarData = [];
     originalData.forEach(function (playerData, index) {
         radarData.push([]);
-        for (var j = 3; j < playerData.length; j++) {
+        for (var j = TABLE_HEADERS.length; j < playerData.length; j++) {
             var combinedValue = playerData[j].split('(');
             var originalValue = combinedValue[0];
             var value = combinedValue[1].split(')')[0];
             radarData[index].push({
-                axis: HEADERS[j - 3],
+                axis: HEADERS[j - TABLE_HEADERS.length],
                 value: value,
                 originValue: originalValue,
                 type: parseInt(playerData[2]),
-                name: playerData[0],
-                team: playerData[1]
+                name: playerData[0] + "(" + playerData[3] + ")",
+                team: playerData[1],
             });
         }
     });
