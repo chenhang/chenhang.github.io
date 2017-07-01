@@ -27,8 +27,6 @@ def load_data():
     for line in f:
         words = line.rstrip().split(',')
         # Store player names
-        if 'Luwawu-Cabarrot_1_Philadelphia 76ers_0_2016-17' in words[0]:
-            print words[0]
         names.append(words[0])
         # Store features of each player
         features.append([float(i) for i in words[1:]])
@@ -66,11 +64,11 @@ def show_result(data):
     xs = []
 
     player_count = len(data[0])
-    for k in range(11, 100):
+    for k in range(5, 28):
         print k
         xs.append(k)
         _ys = []
-        for i in range(1, 11):
+        for i in range(1, 30):
             result, centers, radiuses = train_kmeans(k, data)
             for player_i in range(0, player_count):
                 cluster_i = int(result[player_i])
@@ -91,7 +89,7 @@ def get_result(k, data):
         result, centers, radiuses = train_kmeans(k, data)
         r = sum(radiuses) / k
         print r
-        if r < 19.75:
+        if r < 0.348:
             print(r)
             break
     return result, centers
@@ -275,5 +273,5 @@ def team_cluster():
 
 
 # show_result(data)
-get_images(13, data)
+get_images(16, data)
 team_cluster()
