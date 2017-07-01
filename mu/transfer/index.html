@@ -147,7 +147,6 @@ a {
               $.each(comments, function (commentIndex, comment) {
                   content.append($('<p>').append(comment))
               })
-              console.log(comments)
               $('.timeline').prepend(
                   $('<li>').attr('class', 'timeline-event').append(
                       $('<label>').attr('class', 'timeline-event-icon')
