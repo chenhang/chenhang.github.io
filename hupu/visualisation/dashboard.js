@@ -1,11 +1,11 @@
 var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
     ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
     // HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Key Passes', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
-HEADERS = ["Post-Up","P&R Ball Handler", "Isolation", "Transition", "Offscreen", "Handoff", "Spot-Up", "P&R Roll Man", "Cut", "Putbacks"];
-
+    // HEADERS = ["Post-Up","P&R Ball Handler", "Isolation", "Transition", "Offscreen", "Handoff", "Spot-Up", "P&R Roll Man", "Cut", "Putbacks"];
+    HEADERS = ["背身","挡拆持球","面框单打","转换进攻","绕掩护","手递手","定点突投","挡拆接球", "空切","二次进攻"]
 var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
     radarColors = d3.scale.category10().range(),
-    maxValue = 40,
+    maxValue = 0.7,
     clusters, playerData, displayedData, radarData,
     selectedPlayers = [];
 
@@ -33,7 +33,12 @@ function searchBy(event) {
         for (var i = 0; i < tr.length; i++) {
             var td = tr[i].getElementsByTagName("td");
             if (td) {
-                if ((!playerName && !teamName) || (playerName && td[0].innerHTML.toLowerCase().indexOf(playerName) > -1 ) || (teamName && td[1].innerHTML.toLowerCase().indexOf(teamName) > -1)) {
+                var playerMatch = playerName && td[0].innerHTML.toLowerCase().indexOf(playerName) > -1,
+                    teamMatch = teamName && td[1].innerHTML.toLowerCase().indexOf(teamName) > -1,
+                    bothMatch = playerName && teamName && playerMatch && teamMatch,
+                    noInput = !playerName && !teamName,
+                    onlyOneMatch = (!playerName && teamMatch) || (!teamName && playerMatch)
+                if (bothMatch || noInput || onlyOneMatch) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
