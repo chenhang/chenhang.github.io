@@ -1,12 +1,14 @@
-var CLUSTER_RESULT_PATH = '../cluster_result/centers.json';
-var ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv'
-var HEADERS = ['Transition', 'Isolation', 'PRBallHandler', 'PRRollman', 'Postup', 'Spotup', 'Handoff', 'Cut', 'OffScreen', 'OffRebound']
-;
-var TABLE_HEADERS = ['Name', 'Team', 'Type'];
+var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
+    ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
+    // HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Key Passes', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
+    HEADERS = ['Transition', 'Isolation', 'PRBallHandler', 'PRRollman', 'Postup', 'Spotup', 'Handoff', 'Cut', 'OffScreen', 'OffRebound'];
 
-
-var clusters, playerData, displayedData, radarData,
+var TABLE_HEADERS = ['Name', 'Team', 'Type'],
+    radarColors = d3.scale.category10().range(),
+    maxValue = 40,
+    clusters, playerData, displayedData, radarData,
     selectedPlayers = [];
+
 d3.json(CLUSTER_RESULT_PATH, function (error, data) {
     clusters = parseCenters(data);
     drawClusters('clusters');
@@ -31,7 +33,7 @@ function searchBy(event) {
         for (var i = 0; i < tr.length; i++) {
             var td = tr[i].getElementsByTagName("td");
             if (td) {
-                if ( (!playerName && !teamName)|| (playerName && td[0].innerHTML.toLowerCase().indexOf(playerName) > -1 ) || (teamName && td[1].innerHTML.toLowerCase().indexOf(teamName) > -1)) {
+                if ((!playerName && !teamName) || (playerName && td[0].innerHTML.toLowerCase().indexOf(playerName) > -1 ) || (teamName && td[1].innerHTML.toLowerCase().indexOf(teamName) > -1)) {
                     tr[i].style.display = "";
                 } else {
                     tr[i].style.display = "none";
@@ -46,10 +48,9 @@ function drawPlayerWithType(i) {
         right = 100,
         bottom = 100,
         left = 100;
-    var maxValue = 40;
     var player = radarData[i];
-    var playerInfo = "<strong><span style='color:" + d3.scale.category10().range()[1] + "'>" + player[0].name + ', ' + player[0].team + '</strong></span>';
-    var typeInfo = "<strong><span style='color:" + d3.scale.category10().range()[0] + "'>Player Type: " +  player[0].type + '</strong></span>';
+    var playerInfo = "<strong><span style='color:" + radarColors[1] + "'>" + player[0].name + ', ' + player[0].team + '</strong></span>';
+    var typeInfo = "<strong><span style='color:" + radarColors[0] + "'>Player Type: " + player[0].type + '</strong></span>';
     document.getElementsByClassName('playerClusterTitle')[0].innerHTML = playerInfo + ', ' + typeInfo;
     drawDashboard([clusters[player[0].type], player], 'playerCluster', size, _top, right, bottom, left, maxValue);
 }
@@ -60,12 +61,13 @@ function drawComparedPlayer() {
         right = 100,
         bottom = 100,
         left = 100;
-    var maxValue = 40,
-        data = [],
+    var data = [],
         names = [];
-    selectedPlayers.slice(Math.max(0, selectedPlayers.length - 10)).forEach(function (id, i) {
+    var i = 0;
+    selectedPlayers.slice(Math.max(0, selectedPlayers.length - 10)).forEach(function (id) {
         data.push(radarData[id]);
-        names.push("<strong><span style='color:" + d3.scale.category10().range()[i] + "'>" + radarData[id][0].name + "</span></strong>");
+        names.push("<strong><span style='color:" + radarColors[i] + "'>" + radarData[id][0].name + "</span></strong>");
+        i += 1;
     });
     document.getElementsByClassName('comparedPlayersTitle')[0].innerHTML = 'Compare: ' + names.join(', ');
     drawDashboard(data, 'comparedPlayers', size, _top, right, bottom, left, maxValue);
@@ -154,7 +156,6 @@ function parseCenters(originalData) {
 }
 
 function drawClusters(className) {
-    var maxValue = 40;
     var size = 300,
         _top = 50,
         right = 60,
@@ -173,16 +174,14 @@ function drawCompareClusters(event) {
             right = 100,
             bottom = 80,
             left = 100;
-        var maxValue = 40;
         var comparedClusters = [];
 
-        var colors =  d3.scale.category10().range();
         var newTitle = [];
         var i = 0;
         clusterIds.forEach(function (id) {
             if (clusters[parseInt(id)]) {
                 comparedClusters.push(clusters[parseInt(id)])
-                var typeInfo = "<strong><span style='color:" + colors[i] + "'>Type " +  id + '</strong></span>';
+                var typeInfo = "<strong><span style='color:" + radarColors[i] + "'>Type " + id + '</strong></span>';
                 i += 1;
                 newTitle.push(typeInfo);
             }
@@ -208,6 +207,5 @@ function drawDashboard(data, className, size, _top, right, bottom, left, maxValu
         roundStrokes: false,
         desc: true
     };
-    //Call function to draw the Radar chart
     RadarChart(className, data, radarChartOptions);
 }
