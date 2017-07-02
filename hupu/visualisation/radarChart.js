@@ -145,7 +145,7 @@ function RadarChart(className, data, options) {
     if (cfg.desc) {
         axis.append("text")
             .attr("class", "legend")
-            .style("font-size", "11px")
+            .style("font-size", "15px")
             .attr("text-anchor", "middle")
             .attr("dy", "0.35em")
             .attr("x", function (d, i) {

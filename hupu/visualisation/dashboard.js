@@ -71,10 +71,16 @@ function drawComparedPlayer() {
     var i = 0;
     selectedPlayers.slice(Math.max(0, selectedPlayers.length - 10)).forEach(function (id) {
         data.push(radarData[id]);
-        names.push("<strong><span style='color:" + radarColors[i] + "'>" + radarData[id][0].name + "</span></strong>");
+        names.push("<strong><span class='selected-player' id='selected-player-" + String(id) + "' style='color:" + radarColors[i] + "'>" + radarData[id][0].name + "</span></strong>");
         i += 1;
     });
     document.getElementsByClassName('comparedPlayersTitle')[0].innerHTML = 'Compare: ' + names.join(', ');
+    $(document).on('click', '.selected-player', function () {
+        var id = parseInt($(this).attr('id').replace('selected-player-', ''));
+        d3.select('#player-' + String(i)).style('background-color', '#fff');
+        delete selectedPlayers[selectedPlayers.indexOf(id)];
+        drawComparedPlayer();
+    });
     drawDashboard(data, 'comparedPlayers', size, _top, right, bottom, left, maxValue);
 }
 function drawTable() {
@@ -102,7 +108,6 @@ function drawTable() {
         })
         .on("click", function (d, i) {
             if (selectedPlayers.indexOf(i) < 0) {
-                console.log(d3.select('#player-' + String(i)));
                 d3.select('#player-' + String(i)).style('background-color', '#f1f1f1');
                 selectedPlayers.push(i);
             } else {
