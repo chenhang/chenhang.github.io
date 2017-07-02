@@ -125,7 +125,6 @@ a {
   <script src="js/jquery-3.2.1.min.js"></script>
   <script>
       $.getJSON('transfer.json', function(result) {
-          console.log(result);
           var tweets = result['tweets'];
           var limit = 0;
           $.each(Object.keys(tweets), function (index, key) {
