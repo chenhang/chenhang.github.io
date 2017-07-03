@@ -89,8 +89,9 @@ function drawTrendArea(className, data) {
 	var y = d3.scale.linear()
 	    .range([height, 0]);
 
-	var color = d3.scale.category20c();
-	// var color = d3.scale.ordinal().range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf", "#ffffff"])
+	// var color = d3.scale.category20c();
+	var color = d3.scale.ordinal().range(["#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "F8DBBD", "#31a354", "#74c476", "#a1d99b", "#c7e9c0",
+	 																			"#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"])
 	var xAxis = d3.svg.axis()
 	    .scale(x)
 	    .orient("bottom")
@@ -152,7 +153,7 @@ function drawTrendArea(className, data) {
   //     .attr("x", -50)
   //     .attr("dy", ".35em")
   //     .text(function(d) { return d.name; });
-	
+
   var legendClassArray = []
   var legend = svg.selectAll(".legend")
         .data(color.domain().slice().reverse())
