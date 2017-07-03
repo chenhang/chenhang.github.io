@@ -113,7 +113,7 @@ function drawTrendArea(className, data) {
 	var svg = d3.select('.' + className).append("svg")
 	    .attr("width", width + margin.left + margin.right)
 	    .attr("height", height + margin.top + margin.bottom)
-	  .append("g")
+	  	.append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
@@ -140,14 +140,19 @@ function drawTrendArea(className, data) {
         var ar =  area(d.values);
         return ar;
       })
-      .style("fill", function(d) { return color(d.name); });
+      .style("fill", function(d) { return color(d.name); })
+			.style('stroke-width', 1.5)
+			.style('stroke', 'white')
+			.style('stroke-opacity', 0.7);
+
 
   // browser.append("text")
   //     .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
   //     .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.y0 + d.value.y / 2) + ")"; })
-  //     .attr("x", 50)
+  //     .attr("x", -50)
   //     .attr("dy", ".35em")
   //     .text(function(d) { return d.name; });
+	
   var legendClassArray = []
   var legend = svg.selectAll(".legend")
         .data(color.domain().slice().reverse())
