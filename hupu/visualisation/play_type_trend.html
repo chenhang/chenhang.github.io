@@ -22,7 +22,7 @@
       <a class="navbar-brand" href="#">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
-      <a class="navbar-brand" href="./">Player Dashboard</a>
+      <a class="navbar-brand" href="./">Player Play Type Trend</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-left">
@@ -36,75 +36,32 @@
 </div>
 
 <div class="container-fluid">
+
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <div class="chart-wrapper">
-        <div class="chart-title playerClusterTitle">
-          Type
+        <div class="chart-title playTypesTrendTitle">
+          Player Type Trend:
         </div>
         <div class="chart-stage">
-          <div class="playerCluster"></div>
+          <div class="playTypesTrend"></div>
         </div>
         <div class="chart-notes">
           Notes
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <div class="chart-wrapper">
-        <div class="chart-title comparedPlayersTitle">
-          Type
-        </div>
-        <div class="chart-stage">
-          <div class="comparedPlayers"></div>
-        </div>
-        <div class="chart-notes">
-          Notes
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="chart-wrapper">
-        <div class="chart-title clustersComparedTitle">
-          Type
-        </div>
-        <div class="chart-stage">
-          <input type="text" class="search-box" id="clustersSearch" onkeypress="return drawCompareClusters(event)" placeholder="Search for types, split with ','">
-          <div class="comparedClusters"></div>
-        </div>
-        <div class="chart-notes">
-          Notes
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
       <div class="chart-wrapper">
         <div class="chart-title">
           Players
         </div>
         <div class="chart-stage">
-          <input type="text" class="parallel-search-box" id="playerSearch" onkeypress="return searchBy(event)" placeholder="Search for player">
-          <input type="text" class="parallel-search-box" id="teamSearch" onkeypress="return searchBy(event)" placeholder="Search by team">
+          <input type="text" class="search-box" id="playerSearch" onkeypress="return searchBy(event)" placeholder="Player">
           <div class="playerTableWrapper">
             <table class="playerTable"></table>
           </div>
           </table>
-        </div>
-        <div class="chart-notes">
-          Notes
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Types
-        </div>
-        <div class="chart-stage clusters">
         </div>
         <div class="chart-notes">
           Notes
@@ -124,9 +81,7 @@
 
 <script type="text/javascript" src="assets/lib/keen-js/dist/keen.min.js"></script>
 <script type="text/javascript" src="assets/js/meta.js"></script>
-<script type="text/javascript" src="radarChart.js"></script>
-<script type="text/javascript" src="dashboard.js"></script>
+<script type="text/javascript" src="play_types_trend.js"></script>
 
-<script type="text/javascript" src="bar_chart.js"></script>
 </body>
 </html>

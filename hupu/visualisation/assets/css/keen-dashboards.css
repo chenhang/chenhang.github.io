@@ -27,7 +27,7 @@ body.application,
   /* Do not repeat the icon image */
   background: url('searchicon.png') no-repeat 10px 12px;
   float:left;
-  width: 48%; /* Full-width */
+  width: 45%; /* Full-width */
   font-size: 16px; /* Increase font-size */
   padding: 12px 20px 12px 40px; /* Add some padding */
   border: 1px solid #ddd; /* Add a grey border */
@@ -178,4 +178,15 @@ body.application .return-link:hover,
   margin: -3px 0 0 0;
   top: 100%;
   left: 0;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.browser text {
+  text-anchor: end;
 }
