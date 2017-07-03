@@ -95,7 +95,10 @@ function drawTrendArea(className, data) {
 	var xAxis = d3.svg.axis()
 	    .scale(x)
 	    .orient("bottom")
-	    .tickFormat(d3.format("d"));
+	    .tickFormat(function(year) {
+				var nextYear = String(year+1)
+				return String(year)[2] + String(year)[3] + "-" + nextYear[2] + nextYear[3]
+			});
 
 	var yAxis = d3.svg.axis()
 	    .scale(y)
