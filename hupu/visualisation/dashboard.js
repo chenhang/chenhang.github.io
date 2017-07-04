@@ -1,6 +1,6 @@
 var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
     ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
-    // HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Key Passes', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
+    // HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
     // HEADERS = ["Post-Up","P&R Ball Handler", "Isolation", "Transition", "Offscreen", "Handoff", "Spot-Up", "P&R Roll Man", "Cut", "Putbacks"];
     HEADERS = ["背身","挡拆持球","面框单打","转换进攻","绕掩护","手递手","定点突投","挡拆接球", "空切","二次进攻"]
 var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],

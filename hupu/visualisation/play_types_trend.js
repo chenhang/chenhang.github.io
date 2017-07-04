@@ -92,12 +92,19 @@ function drawTrendArea(className, data) {
 	// var color = d3.scale.category20c();
 	var color = d3.scale.ordinal().range(["#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "F8DBBD", "#31a354", "#74c476", "#a1d99b", "#c7e9c0",
 	 																			"#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"])
+	var years = []
 	var xAxis = d3.svg.axis()
 	    .scale(x)
 	    .orient("bottom")
 	    .tickFormat(function(year) {
 				var nextYear = String(year+1)
-				return String(year)[2] + String(year)[3] + "-" + nextYear[2] + nextYear[3]
+				var year = String(year)[2] + String(year)[3] + "-" + nextYear[2] + nextYear[3]
+				if (years.indexOf(year) >= 0) {
+					return ""
+				} else {
+						years.push(year)
+						return year
+				}
 			});
 
 	var yAxis = d3.svg.axis()

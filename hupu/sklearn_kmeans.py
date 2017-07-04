@@ -18,8 +18,8 @@ HEADERS = [
     "Handoff", "Spot-Up", "P&R Roll Man", "Cut", "Putbacks"
 ]
 
-DATA_PATH = 'play_types.data'
-# DATA_PATH = '../csv/league_data.csv'
+# DATA_PATH = 'play_types.data'
+DATA_PATH = '../csv/league_data.csv'
 PATH = 'cluster_img'
 
 
@@ -86,6 +86,6 @@ def show_result_sc(data):
 
 
 # show_result(data)
-show_result_elbow(data)
+show_result_sc(data)
 # get_images(16, data)
 # team_cluster()
