@@ -1,6 +1,6 @@
 var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
     ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
-    HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Key Passes', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
+    HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
 //HEADERS = ['Transition', 'Isolation', 'PRBallHandler', 'PRRollman', 'Postup', 'Spotup', 'Handoff', 'Cut', 'OffScreen', 'OffRebound'];
 
 var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
