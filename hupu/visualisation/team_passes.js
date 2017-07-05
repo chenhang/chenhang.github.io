@@ -46,7 +46,6 @@ function drawTable() {
             if (selectTeam != d.nameUniq) {
                 d3.select('#team-' + String(i)).style('background-color', '#f1f1f1');
                 selectTeam = d.nameUniq;
-								console.log(d)
 								document.getElementsByClassName('teamPassesTitle')[0].innerHTML = 'Team Passes: ' + d.name;
 								drawWithData(teamsData[selectTeam].combined)
             }
@@ -327,8 +326,8 @@ function drawForceDirect(data) {
 	    .attr("viewBox", "0 -5 10 10")
 	    .attr("refX", 12)
 	    .attr("refY", -0.5)
-	    .attr("markerWidth", 6)
-	    .attr("markerHeight", 6)
+	    .attr("markerWidth", 4)
+	    .attr("markerHeight", 4)
 			.style('fill', 'orange')
 			.style('opacity', 0.8)
 	    .attr("orient", "auto")
@@ -342,7 +341,7 @@ function drawForceDirect(data) {
 	  .enter().append("svg:path")
 	  //  .attr("class", function(d) { return "link " + d.type; })
 	    .attr("class", "link")
-			.style('stroke-width', function(d){ return d.time/250} )
+			.style('stroke-width', function(d){ return d.time/200} )
 			.style('stroke', 'orange')
 			.style('stroke-opacity', 0.7)
 	    .attr("marker-end", "url(#end)");
