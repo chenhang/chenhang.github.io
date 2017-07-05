@@ -8,42 +8,27 @@
   <script src="d3/d3.min.js"></script>
   <script src="d3/d3.tip.v0.6.3.js"></script>
   <script src="d3/d3.rollup.v0.min.js"></script>
-  <style>
-  #tooltip {
-          position: absolute;
-          width: 150px;
-          height: auto;
-          padding: 5px;
-          background-color: white;
-  		opacity: 0.8;
-          -webkit-border-radius: 5px;
-          -moz-border-radius: 5px;
-          border-radius: 5px;
-          -webkit-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
-          -moz-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
-          box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.4);
-          pointer-events: none;
-  }
+	<style>
 
-  #tooltip.hidden {
-          display: none;
-  }
+path.link {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
 
-  #tooltip p {
-          margin: 0;
-          font-family: sans-serif;
-          font-size: 12px;
-          line-height: 16px;
-  }
+circle {
+  fill: #ccc;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
 
-  .link {
-    fill: none;
-    stroke: #000;
-    stroke-opacity: .2;
-  }
+text {
+  fill: #000;
+  font: 10px sans-serif;
+  pointer-events: none;
+}
 
-
-  </style>
+</style>
 </head>
 <body class="application">
 
@@ -75,7 +60,7 @@
 <div class="container-fluid">
 
   <div class="row">
-    <div class="col-sm-1">
+    <div class="col-sm-2">
       <div class="chart-wrapper">
         <div class="chart-title">
           Teams
@@ -92,13 +77,13 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-11">
+    <div class="col-sm-10">
       <div class="chart-wrapper">
         <div class="chart-title teamPassesTitle">
           Team Passes: GSW
         </div>
         <div class="chart-stage">
-          <div class="courtWrapper"></div>
+          <div class="linksWrapper"></div>
         </div>
         <div class="chart-notes">
           Notes
@@ -106,6 +91,7 @@
       </div>
     </div>
   </div>
+
 
 </div>
 
@@ -133,9 +119,8 @@ d3.json("passes.json", function(data) {
 });
 
 function drawWithData(data){
-  drawCombinedPasses(data)
+  drawForceDirect(data)
 }
-
 </script>
 
 </body>
