@@ -329,6 +329,8 @@ function drawForceDirect(data) {
 	    .attr("refY", -0.5)
 	    .attr("markerWidth", 6)
 	    .attr("markerHeight", 6)
+			.style('fill', 'orange')
+			.style('opacity', 0.8)
 	    .attr("orient", "auto")
 	  .append("svg:path")
 	    .attr("d", "M0,-5L10,0L0,5")
@@ -341,7 +343,8 @@ function drawForceDirect(data) {
 	  //  .attr("class", function(d) { return "link " + d.type; })
 	    .attr("class", "link")
 			.style('stroke-width', function(d){ return d.time/250} )
-			.style('stroke-color', 'blue')
+			.style('stroke', 'orange')
+			.style('stroke-opacity', 0.7)
 	    .attr("marker-end", "url(#end)");
 
 	// define the nodes

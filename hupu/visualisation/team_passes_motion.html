@@ -115,7 +115,8 @@ d3.json("passes.json", function(data) {
 		teamNames.push({id: key, nameUniq: key,  name: key })
 	});
 	selectTeam = 'GSW'
-	drawTable(data[selectTeam].combined);
+	drawTable();
+	drawWithData(data[selectTeam].combined);
 });
 
 function drawWithData(data){

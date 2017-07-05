@@ -81,7 +81,7 @@
           Teams
         </div>
         <div class="chart-stage">
-          <input type="text" class="search-box" id="teamSearch" onkeypress="return searchBy(event)" placeholder="Team Abbr">
+          <input type="text" class="search-box" id="teamSearch" onkeypress="return searchBy(event)" placeholder="">
           <div class="teamTableWrapper playerTableWrapper">
             <table class="teamTable playerTable"></table>
           </div>
@@ -129,7 +129,8 @@ d3.json("passes.json", function(data) {
 		teamNames.push({id: key, nameUniq: key,  name: key })
 	});
 	selectTeam = 'GSW'
-	drawTable(data[selectTeam].combined);
+  drawTable();
+	drawWithData(data[selectTeam].combined);
 });
 
 function drawWithData(data){
