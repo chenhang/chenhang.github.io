@@ -47,7 +47,7 @@ function drawTable() {
                 d3.select('#team-' + String(i)).style('background-color', '#f1f1f1');
                 selectTeam = d.nameUniq;
 								document.getElementsByClassName('teamPassesTitle')[0].innerHTML = 'Team Passes: ' + d.name;
-								drawWithData(teamsData[selectTeam].combined)
+								drawWithData(teamsData[selectTeam])
             }
         });
     rows.selectAll('td')
