@@ -16,11 +16,6 @@ path.link {
   stroke-width: 1.5px;
 }
 
-circle {
-  fill: #ccc;
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
 
 text {
   fill: #000;
@@ -116,11 +111,11 @@ d3.json("passes.json", function(data) {
 	});
 	selectTeam = 'GSW'
 	drawTable();
-	drawWithData(data[selectTeam].combined);
+	drawWithData(data[selectTeam]);
 });
 
 function drawWithData(data){
-  drawForceDirect(data)
+  drawForceDirect(data.all)
 }
 </script>
 

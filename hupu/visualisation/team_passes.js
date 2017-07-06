@@ -355,8 +355,10 @@ function drawForceDirect(data) {
 
 	// add the nodes
 	node.append("circle")
-	    .attr("r", 5);
-
+	    .attr("r", function(d) { return d.passes/800 })
+      .style('fill', '#ccc')
+      .style('stroke', '#fff')
+      .style('stroke-width', function(d) { return 1.5 });
 	// add the text
 	node.append("text")
 	    .attr("x", 12)
