@@ -128,7 +128,7 @@ function drawCombinedPasses(json) {
 		})
 	.style("stroke", "grey")
 	.style("stroke-width", function(d) {
-		return d.value / 50;
+		return d.value;
 		});
 
 	var node = svg.selectAll(".node")
@@ -307,7 +307,7 @@ function drawForceDirect(data) {
 	    .nodes(nodes)
 	    .links(links)
 	    .size([width, height])
-	    .linkDistance(400)
+	    .linkDistance(300)
 	    .charge(-500)
 	    .on("tick", tick)
 	    .start();
@@ -324,7 +324,7 @@ function drawForceDirect(data) {
 	  .enter().append("svg:marker")    // This section adds in the arrows
 	    .attr("id", String)
 	    .attr("viewBox", "0 -5 10 10")
-	    .attr("refX", 12)
+	    .attr("refX", 16)
 	    .attr("refY", -0.5)
 	    .attr("markerWidth", 4)
 	    .attr("markerHeight", 4)
@@ -341,9 +341,9 @@ function drawForceDirect(data) {
 	  .enter().append("svg:path")
 	  //  .attr("class", function(d) { return "link " + d.type; })
 	    .attr("class", "link")
-			.style('stroke-width', function(d){ return d.time/200} )
+			.style('stroke-width', function(d){ return d.time/2} )
 			.style('stroke', 'orange')
-			.style('stroke-opacity', 0.7)
+			.style('stroke-opacity', 0.8)
 	    .attr("marker-end", "url(#end)");
 
 	// define the nodes
@@ -355,13 +355,13 @@ function drawForceDirect(data) {
 
 	// add the nodes
 	node.append("circle")
-	    .attr("r", function(d) { return d.passes/800 })
+	    .attr("r", function(d) { return d.passes/4 })
       .style('fill', '#ccc')
       .style('stroke', '#fff')
-      .style('stroke-width', function(d) { return 1.5 });
+      .style('stroke-width', function(d) { return 2 });
 	// add the text
 	node.append("text")
-	    .attr("x", 12)
+	    .attr("x", 14)
 	    .attr("dy", ".35em")
 	    .text(function(d) { return d.name; });
 
