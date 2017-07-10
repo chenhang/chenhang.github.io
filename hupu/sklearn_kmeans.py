@@ -86,6 +86,6 @@ def show_result_sc(data):
 
 
 # show_result(data)
-show_result_sc(data)
+show_result_elbow(data)
 # get_images(16, data)
 # team_cluster()
