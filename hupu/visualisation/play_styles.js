@@ -36,7 +36,7 @@ function searchBy(event) {
 }
 
 function drawComparedPlayer() {
-    var size = 600,
+    var size = 1000,
         _top = 100,
         right = 100,
         bottom = 100,
