@@ -69,7 +69,7 @@ add_node(T, d3Dendro)
 
 
 # Label each node with the names of each leaf in its subtree
-def label_tree(n):
+def label_tree(n, hide_names=False):
     # If the node is a leaf, then we have its name
     if len(n["children"]) == 0:
         leafNames = [id2name[n["node_id"]]]
@@ -83,12 +83,18 @@ def label_tree(n):
     del n["node_id"]
 
     # Labeling convention: "-"-separated leaf names
-    n["name"] = name = "-".join(sorted(map(str, leafNames)))
+    if hide_names:
+        if len(leafNames) > 1:
+            n["name"] = name = ''
+        else:
+            n["name"] = name = "-".join(sorted(map(str, leafNames)))
+    else:
+        n["name"] = name = "-".join(sorted(map(str, leafNames)))
 
     return leafNames
 
 
-label_tree(d3Dendro["children"][0])
+label_tree(d3Dendro["children"][0], hide_names=True)
 
 # Output to JSON
 json.dump(d3Dendro, open("d3-dendrogram.json", "w"), sort_keys=True, indent=4)
