@@ -37,7 +37,27 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-12">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Players
+        </div>
+        <div class="chart-stage">
+          <input type="text" class="parallel-search-box" id="playerSearch" onkeypress="return searchBy(event)" placeholder="Search for player">
+          <input type="text" class="parallel-search-box" id="teamSearch" onkeypress="return searchBy(event)" placeholder="Search by team">
+          <div class="playerTableWrapper">
+            <table class="playerTable full-table"></table>
+          </div>
+          </table>
+        </div>
+        <div class="chart-notes">
+          Notes
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
       <div class="chart-wrapper">
         <div class="chart-title comparedPlayersTitle">
           Type
@@ -50,7 +70,7 @@
         </div>
       </div>
     </div>
-		<div class="col-sm-3">
+		<div class="col-sm-6">
       <div class="chart-wrapper">
         <div class="chart-title comparedPlayersTitle">
           Type
@@ -63,7 +83,9 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-3">
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
       <div class="chart-wrapper">
         <div class="chart-title comparedPlayersTitle">
           Type
@@ -76,36 +98,13 @@
         </div>
       </div>
     </div>
-		<div class="col-sm-3">
+		<div class="col-sm-6">
       <div class="chart-wrapper">
         <div class="chart-title comparedPlayersTitle">
           Type
         </div>
         <div class="chart-stage">
           <div class="comparedPlayers attack"></div>
-        </div>
-        <div class="chart-notes">
-          Notes
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-
-  </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="chart-wrapper">
-        <div class="chart-title">
-          Players
-        </div>
-        <div class="chart-stage">
-          <input type="text" class="parallel-search-box" id="playerSearch" onkeypress="return searchBy(event)" placeholder="Search for player">
-          <input type="text" class="parallel-search-box" id="teamSearch" onkeypress="return searchBy(event)" placeholder="Search by team">
-          <div class="playerTableWrapper">
-            <table class="playerTable"></table>
-          </div>
-          </table>
         </div>
         <div class="chart-notes">
           Notes

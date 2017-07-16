@@ -2,19 +2,19 @@ var HEADERS = {'defensive': [ 'Tackles','Clearances', 'Interceptions', 'Passes B
             'passing': ['Short Passes', 'Long Passes',  'Cross Passes', 'Short Key Passes', 'Long Key Passes'],
             'control': ['Dribbles', 'Fouled', 'Aerials','Dispossessed' , 'Unsuccessful Touches'],
             'attack': ['Out Of Box Shots','Penalty Area Shots', 'Head Shots', 'Counter Shots', 'Open Play Shots']},
-    TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
+    TABLE_HEADERS = ['Name', 'Team', 'Season', 'Type'],
     radarColors = d3.scale.category10().range(),
     maxValue = 0.7,
     noTable = true,
-    clusters, displayedData, radarData = {},
+    clusters, radarData = {},
     playerData, selectedPlayers = [];
 
-Object.keys(HEADERS).forEach(function(key) {
+Object.keys(HEADERS).forEach(function(key, i) {
   d3.text('../cluster_result/kmeans_' + key + '_league_data.csv', function (error, text) {
   		playerData = d3.csv.parseRows(text);
   		radarData[key] = parsePlayerRadarData(playerData,key);
   		drawComparedPlayer(key);
-      if (noTable) {drawTable();};
+      if (i == 3) {drawTable();};
       noTable = false;
   });
 });
@@ -45,11 +45,11 @@ function searchBy(event) {
     }
 
 function drawComparedPlayer(key) {
-    var size = 300,
-        _top = 40,
-        right = 50,
-        bottom = 40,
-        left = 50;
+    var size = 600,
+        _top = 80,
+        right = 100,
+        bottom = 80,
+        left = 100;
     var data = [],
         names = [];
     var i = 0;
@@ -133,8 +133,8 @@ function parsePlayerRadarData(originalData, key) {
                 axis: HEADERS[key][j - TABLE_HEADERS.length],
                 value: value,
                 originValue: originalValue,
-                type: parseInt(playerData[2]),
-                name: playerData[0] + "(" + playerData[3] + ")",
+                type: parseInt(playerData[3]),
+                name: playerData[0] + "(" + playerData[2] + ")",
                 team: playerData[1],
             });
         }

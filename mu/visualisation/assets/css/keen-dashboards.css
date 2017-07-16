@@ -58,7 +58,7 @@ body.application,
 }
 
 .playerTableWrapper {
-  width: 580px;
+  width: 100%;
   height: 565px;
   /*height: 417px;*/
   overflow: auto;

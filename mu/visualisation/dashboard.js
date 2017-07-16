@@ -5,11 +5,10 @@ var CLUSTER_RESULT_PATH = '../cluster_result/league_data_centers.json',
                 'Short Passes', 'Long Passes',  'Cross Passes', 'Short Key Passes', 'Long Key Passes',
                 'Dribbles', 'Fouled', 'Aerials','Dispossessed' , 'Unsuccessful Touches',
                 'Out Of Box Shots','Penalty Area Shots', 'Head Shots', 'Counter Shots', 'Open Play Shots']
-var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
+var TABLE_HEADERS = ['Name', 'Team', 'Season', 'Type'],
     radarColors = d3.scale.category10().range(),
     maxValue = 0.6,
-    clusters, playerData, displayedData, radarData,
-    selectedPlayers = [];
+    clusters, playerData, displayedData, radarData, selectedPlayers = [];
 
     d3.json(CLUSTER_RESULT_PATH, function (error, data) {
         clusters = parseCenters(data);
@@ -59,7 +58,9 @@ var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
         var playerInfo = "<strong><span style='color:" + radarColors[1] + "'>" + player[0].name + ', ' + player[0].team + '</strong></span>';
         var typeInfo = "<strong><span style='color:" + radarColors[0] + "'>Player Type: " + player[0].type + '</strong></span>';
         document.getElementsByClassName('playerClusterTitle')[0].innerHTML = playerInfo + ', ' + typeInfo;
-        drawDashboard([clusters[player[0].type], player], 'playerCluster', size, _top, right, bottom, left, maxValue);
+        var types = player[0].type.split(',');
+        console.log(parseInt(types[types.length-1].split('_')[1]))
+        drawDashboard([clusters[parseInt(types[types.length-1].split('_')[1])], player], 'playerCluster', size, _top, right, bottom, left, maxValue);
     }
 
     function drawComparedPlayer() {
@@ -145,8 +146,8 @@ var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
                     axis: HEADERS[j - TABLE_HEADERS.length],
                     value: value,
                     originValue: originalValue,
-                    type: parseInt(playerData[2]),
-                    name: playerData[0] + "(" + playerData[3] + ")",
+                    type: playerData[3],
+                    name: playerData[0] + "(" + playerData[2] + ")",
                     team: playerData[1],
                 });
             }
