@@ -1,11 +1,13 @@
-var CLUSTER_RESULT_PATH = '../cluster_result/centers.json',
+var CLUSTER_RESULT_PATH = '../cluster_result/league_data_centers.json',
     ALL_KMEANS_PLAYER_PATH = '../cluster_result/kmeans_league_data.csv',
     HEADERS = ['Tackles', 'Clearances', 'Interceptions', 'Short Passes', 'Long Passes', 'Cross Passes', 'Dribbles', 'OutOfBox Shots', 'PenaltyArea Shots', 'Aerials'];
-//HEADERS = ['Transition', 'Isolation', 'PRBallHandler', 'PRRollman', 'Postup', 'Spotup', 'Handoff', 'Cut', 'OffScreen', 'OffRebound'];
-
+    HEADERS = [ 'Tackles','Clearances', 'Interceptions', 'Passes Blocks', 'Shots Blocks', 'Fouls',
+                'Short Passes', 'Long Passes',  'Cross Passes', 'Short Key Passes', 'Long Key Passes',
+                'Dribbles', 'Fouled', 'Aerials','Dispossessed' , 'Unsuccessful Touches',
+                'Out Of Box Shots','Penalty Area Shots', 'Head Shots', 'Counter Shots', 'Open Play Shots']
 var TABLE_HEADERS = ['Name', 'Team', 'Type', 'Season'],
     radarColors = d3.scale.category10().range(),
-    maxValue = 0.5,
+    maxValue = 0.6,
     clusters, playerData, displayedData, radarData,
     selectedPlayers = [];
 
