@@ -28,7 +28,7 @@ HEADERS = [
 ]
 
 # DATA_PATH = 'play_types.data'
-DATA_PATH = '../csv/league_data.csv'
+DATA_PATH = '../csv/defensive_league_data.csv'
 PATH = 'cluster_img'
 
 
@@ -139,8 +139,8 @@ def show_result_sc(data):
 
 
 # show_result(data)
-# show_result_elbow(data)
+show_result_elbow(data)
 # ap(data)
-cengci(data)
+# cengci(data)
 # get_images(16, data)
 # team_cluster()
