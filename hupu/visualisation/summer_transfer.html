@@ -38,7 +38,15 @@
     <div id="chart"></div>
 
     <script>
-      var colors = {'MIL': '#C41230', 'GSW': '#0068B3', 'MIN': '#003F70', 'TOR': '#C60033', 'ATL': '#E2373E', 'BOS': '#007239', 'DET': '#EC003D', 'NYK': '#F3571F', 'DEN': '#559FD6', 'DAL': '#0063AF', 'BKN': '#000000', 'POR': '#DE2032', 'ORL': '#006BB7', 'MIA': '#98002E', 'CLE': '#860038', 'SAS': '#BA24CA', 'CHA': '#00848E', 'UTA': '#002A5C', 'CHI': '#C60033', 'HOU': '#C60033', 'WAS': '#002A5B', 'LAL': '#FEA927', 'PHI': '#EC003D', 'MEM': '#182A48', 'LAC': '#00559A', 'SAC': '#542E91', 'OKC': '#FDBB30', 'PHX': '#E45F1F', 'IND': '#001D4A', 'NOP': '#002B5C'};
+      var colors = {'MIL': '#C41230', 'GSW': '#0068B3', 'MIN': '#003F70',
+			'TOR': '#C60033', 'ATL': '#E2373E', 'BOS': '#007239', 'DET': '#EC003D',
+			'NYK': '#F3571F', 'DEN': '#559FD6', 'DAL': '#0063AF', 'BKN': '#000000',
+			'POR': '#DE2032', 'ORL': '#006BB7', 'MIA': '#98002E', 'CLE': '#860038',
+			'SAS': '#BA24CA', 'CHA': '#00848E', 'UTA': '#002A5C', 'CHI': '#C60033',
+			'HOU': '#C60033', 'WAS': '#002A5B', 'LAL': '#FEA927', 'PHI': '#EC003D',
+			'MEM': '#182A48', 'LAC': '#00559A', 'SAC': '#542E91', 'OKC': '#FDBB30',
+			'PHX': '#E45F1F', 'IND': '#001D4A', 'NOP': '#002B5C'};
+			var conferencesColors = {'Eastern': '#00559A', 'Western': '#EC003D'}
 			d3.json("summer_transfers.json", function(error, data) {
 			// d3.json("demo.json", function(error, data) {
 				var json = data.all.all
@@ -62,7 +70,10 @@
         }
         function color(node, depth) {
           var id = node.name//.replace(/(_score)?(_\d+)?$/, '');
-          if (colors[id]) {
+					// if (conferencesColors[node.conference]) {
+          //   return conferencesColors[node.conference];
+          // } else
+					if (colors[id]) {
             return colors[id];
           } else if (depth > 0 && node.targetLinks && node.targetLinks.length == 1) {
             return color(node.targetLinks[0].source, depth-1);
