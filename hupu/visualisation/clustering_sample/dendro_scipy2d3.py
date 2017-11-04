@@ -8,8 +8,10 @@ import numpy as np
 import json
 import matplotlib.pyplot as plt
 
-DATA_PATH = '../play_styles.csv'
+# DATA_PATH = '../play_styles.csv'
 # DATA_PATH = '../csv/league_data.csv'
+DATA_PATH = '../../nba_py/datasets/normalized_TeamGeneralSplits_Four Factors.csv'
+
 PATH = 'cluster_img'
 
 

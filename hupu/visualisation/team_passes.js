@@ -140,7 +140,7 @@ function drawCombinedPasses(json) {
 	.attr("cx", function(d, i){
 		return d.x})
 	.attr("cy", function(d, i){ return d.y})
-	.attr("r", 30)
+	.attr("r", 10)
 	.attr("filter","url(#f3)")
 	.style("fill", "white")
 	.style("stroke", "grey")
@@ -307,8 +307,8 @@ function drawForceDirect(data) {
 	    .nodes(nodes)
 	    .links(links)
 	    .size([width, height])
-	    .linkDistance(300)
-	    .charge(-500)
+	    .linkDistance(400)
+	    .charge(-200)
 	    .on("tick", tick)
 	    .start();
 	d3.select('.passLinks').remove()
@@ -326,8 +326,8 @@ function drawForceDirect(data) {
 	    .attr("viewBox", "0 -5 10 10")
 	    .attr("refX", 16)
 	    .attr("refY", -0.5)
-	    .attr("markerWidth", 4)
-	    .attr("markerHeight", 4)
+	    .attr("markerWidth", 2)
+	    .attr("markerHeight", 2)
 			.style('fill', 'orange')
 			.style('opacity', 0.8)
 	    .attr("orient", "auto")
@@ -341,7 +341,7 @@ function drawForceDirect(data) {
 	  .enter().append("svg:path")
 	  //  .attr("class", function(d) { return "link " + d.type; })
 	    .attr("class", "link")
-			.style('stroke-width', function(d){ return d.time/2} )
+			.style('stroke-width', function(d){ return d.time/12} )
 			.style('stroke', 'orange')
 			.style('stroke-opacity', 0.8)
 	    .attr("marker-end", "url(#end)");
@@ -355,7 +355,7 @@ function drawForceDirect(data) {
 
 	// add the nodes
 	node.append("circle")
-	    .attr("r", function(d) { return d.passes/4 })
+	    .attr("r", function(d) { return d.passes/30 })
       .style('fill', '#ccc')
       .style('stroke', '#fff')
       .style('stroke-width', function(d) { return 2 });
