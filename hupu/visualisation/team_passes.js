@@ -300,17 +300,17 @@ function drawForceDirect(data) {
 	    link.value = +link.value;
 	});
 
-	var width = 800,
-	    height = 800;
+	var width = 1000,
+	    height = 1000;
 
 	var force = d3.layout.force()
 	    .nodes(nodes)
 	    .links(links)
 	    .size([width, height])
-	    .linkDistance(400)
-	    .charge(-200)
+	    .linkDistance(450)
+	    .charge(-300)
 	    .on("tick", tick)
-	    .start();
+		.start();
 	d3.select('.passLinks').remove()
 	var svg = d3.select(".linksWrapper")
 			.append("svg")
@@ -341,7 +341,7 @@ function drawForceDirect(data) {
 	  .enter().append("svg:path")
 	  //  .attr("class", function(d) { return "link " + d.type; })
 	    .attr("class", "link")
-			.style('stroke-width', function(d){ return d.time/12} )
+			.style('stroke-width', function(d){ return d.time/14} )
 			.style('stroke', 'orange')
 			.style('stroke-opacity', 0.8)
 	    .attr("marker-end", "url(#end)");
