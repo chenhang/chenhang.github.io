@@ -15,7 +15,7 @@ end
 URL_BASE = "http://www.redcafe.net/"
 
 def get(page=1)
-  open("http://www.redcafe.net/threads/transfer-tweets-summer-2017-this-is-not-the-perisic-v-salah-thread.429443/page-#{page}").read
+  open("http://www.redcafe.net/threads/transfer-tweets-2017-18.434164/page-#{page}").read
 end
 
 def get_transfer_tweets(client)
