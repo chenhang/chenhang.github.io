@@ -1,4 +1,4 @@
-#!/bin/sh  
+#!/bin/bash  
 cd ~/chenhang.github.io/mu/transfer/  
 pwd
 echo 'Start'
