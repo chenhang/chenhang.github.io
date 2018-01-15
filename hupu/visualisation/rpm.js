@@ -148,6 +148,10 @@ function drawDashboard(data, className, size, _top, right, bottom, left, maxValu
         levels: 10,
         roundStrokes: false,
         desc: true,
+        // strokeWidth: 5,
+        dotRadius: 0,
+        opacityCircles: 0.3,
+        // opacityArea: 0.2,
         color: function (e) {
             return colors[e]
         }
