@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <title>Player Classification</title>
+	<meta charset="utf-8">
+	<title>Player Classification</title>
 </head>
 
 <body>
-	<img src="img/Cluster 1.svg"/>
-	<img src="img/Cluster 2.svg"/>
-	<img src="img/Cluster 3.svg"/>
-	<img src="img/Cluster 4.svg"/>
-	<img src="img/Cluster 5.svg"/>
-	<img src="img/Cluster 6.svg"/>
-	<img src="img/Cluster 7.svg"/>
-	<img src="img/Cluster 8.svg"/>
-	<img src="img/Cluster 9.svg"/>
-	<img src="img/Cluster 10.svg"/>
-	<img src="img/Cluster 11.svg"/>
-	<img src="img/Cluster 12.svg"/>
-	<img src="img/Cluster 13.svg"/>
-	<img src="img/Cluster 14.svg"/>
-	<img src="img/Cluster 15.svg"/>
+	<div id="selector">
+
+	</div>
+	<div id="container">
+
+	</div>
 </body>
+<script>
+	var container = document.getElementById('container');
+	var selector = document.getElementById('selector');
+
+	[6, 7, 8, 9, 10, 11, 12, 13].forEach(function (item, index) {
+		selector.insertAdjacentHTML('beforeend', "<button onclick='select(this)' id='" + item + "'>" + item + "</button>");
+	});
+
+	function select(e) {
+		var count = Number(e.id);
+		container.innerHTML = ""
+		Array.apply(null, Array(count)).map(function (_, i) {
+			return i;
+		}).forEach(function (item) {
+			container.innerHTML += '<img src="img/' + count + '/cluster_' + String(item + 1) + '.svg"><\img>'
+		});
+	}
+</script>
 
 
 </html>
