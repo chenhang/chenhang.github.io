@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Player Classification</title>
+</head>
+
+<body>
+	<div id="container">
+
+	</div>
+</body>
+<script>
+	var container = document.getElementById('container');
+	Array.apply(null, Array(13)).map(function (_, i) {
+		return i;
+	}).forEach(function (item) {
+		container.innerHTML += '<img src="' + 'component_' + String(item + 1) + '.svg"><\img>'
+	});
+</script>
+
+
+</html>
