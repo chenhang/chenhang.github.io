@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    body {
+        font-family: sans-serif;
+    }
+
+    .chart-title {
+        font-size: 1.5em;
+    }
+
+    .node text {
+        font: 10px sans-serif;
+    }
+
+    .node--internal text {
+        text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+    }
+
+    .link {
+        fill: none;
+        stroke: #555;
+        stroke-opacity: 0.4;
+        stroke-width: 1.5px;
+    }
+
+    #toggle-button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 20px;
+        font-size: 2em;
+        text-align: center;
+        background: #FFF;
+        border-radius: 5px;
+        border: 1px solid #DDD;
+    }
+
+    #toggle-button:hover {
+        background: #CCC;
+        cursor: pointer;
+    }
+</style>
+<div id='toggle-button'>Toggle</div>
+<svg width="900" height="830"></svg>
+<script src="d3/d3.v4.min.js"></script>
+<script>
+    var svg = d3.select("svg"),
+        width = +svg.attr("width"),
+        height = +svg.attr("height"),
+        g = svg.append("g").attr("transform", "translate(" + 80 + "," + 0 + ")");
+
+    var stratify = d3.stratify()
+        .id(function (d) {
+            return d.CoachB;
+        })
+        .parentId(function (d) {
+            return d.CoachA;
+        });
+
+    function project(x, y) {
+        var angle = (x - 90) / 180 * Math.PI,
+            radius = y;
+        return [radius * Math.cos(angle) + width / 2.0, radius * Math.sin(angle) + height / 2.0];
+    }
+
+    d3.csv("coachsnetwork.csv", function (error, data) {
+        if (error) throw error;
+
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        // Title
+        svg.append("text")
+            .attr("x", "20")
+            .attr("y", "30")
+            .attr("class", "chart-title")
+            .text("Acme Org Chart");
+
+        // Setup legend
+        var legendDotSize = 30;
+        var legendWrapper = svg.append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d) {
+                return "translate(20,60)";
+            })
+
+        var colorData = Array.from(new Set(data.map(function (d) {
+                return d.relationship;
+            })))
+            .sort(function (a, b) {
+                return a.localeCompare(b);
+            });
+
+        // The text of the legend
+        var legendText = legendWrapper.selectAll("text")
+            .data(colorData);
+
+        legendText.enter().append("text")
+            .attr("y", function (d, i) {
+                return i * legendDotSize + 12;
+            })
+            .attr("x", 20)
+            .merge(legendText)
+            .text(function (d) {
+                return d;
+            });
+
+        // The dots of the legend
+        var legendDot = legendWrapper.selectAll("rect")
+            .data(colorData);
+
+        legendDot.enter().append("rect")
+            .attr("y", function (d, i) {
+                return i * legendDotSize;
+            })
+            .attr("rx", legendDotSize * 0.5)
+            .attr("ry", legendDotSize * 0.5)
+            .attr("width", legendDotSize * 0.5)
+            .attr("height", legendDotSize * 0.5)
+            .merge(legendDot)
+            .style("fill", function (d) {
+                return color(d);
+            });
+
+        // Interaction with button
+        var radialMode = true;
+        document.getElementById("toggle-button").onclick = function () {
+            toggleMode()
+        };
+
+        var toggleMode = function () {
+            var tree;
+
+            if (radialMode) {
+                tree = d3.cluster()
+                    .size([360, 320]) // degrees, radius
+                    .separation(function (a, b) {
+                        return (a.parent == b.parent ? 1 : 2) / a.depth;
+                    });
+            } else {
+                tree = d3.cluster()
+                    .size([820, 700]); // height, width
+            }
+
+            var root = stratify(data)
+                .sort(function (a, b) {
+                    return (a.data.relationship.localeCompare(b.data.relationship) || b.height - a.height);
+                });
+
+            tree(root);
+
+            var node = g.selectAll(".node").data(root.descendants());
+
+            node.group = node.enter().append("g")
+                .attr("class", function (d) {
+                    return "node" + (d.children ? " node--internal" : " node--leaf");
+                });
+
+            var link = g.selectAll(".link")
+                .data(root.descendants().slice(1));
+
+            if (radialMode) {
+                node.group.merge(node).transition().duration(1000)
+                    .attr("transform", function (d) {
+                        return "translate(" + project(d.x, d.y) + ")";
+                    });
+
+                node.group.append("text")
+                    .text(function (d) {
+                        return d.data.CoachB;
+                    })
+                    .merge(node.select("text")).transition().duration(1000)
+                    .attr("x", function (d) {
+                        return d.x < 180 === !d.children ? 6 : -1 * (this.getBBox().width + 6);
+                    })
+                    .attr("transform", function (d) {
+                        return "rotate(" + (d.x < 180 ? d.x - 90 : d.x + 90) + ")";
+                    });
+
+                link.enter().append("path")
+                    .attr("class", "link")
+                    .merge(link).transition().duration(1000)
+                    .attr("d", function (d) {
+                        // straight line from the root to first level, looks a little cleaner
+                        // But, looks terrible on the transition between radial/tree, b/c diff kind of svg path
+                        /*
+                        if(d.depth == 1) {
+                          return "M" + project(d.x, d.y)
+                              + "L" + project(d.parent.x, d.parent.y);
+                        }
+                        */
+                        return "M" + project(d.x, d.y) +
+                            "C" + project(d.x, (d.y + d.parent.y) / 2) +
+                            " " + project(d.parent.x, (d.y + d.parent.y) / 2) +
+                            " " + project(d.parent.x, d.parent.y);
+                    });
+            } else {
+                node.group.merge(node).transition().duration(1000)
+                    .attr("transform", function (d) {
+                        return "translate(" + d.y + "," + d.x + ")";
+                    });
+
+                node.group.append("text")
+                    .text(function (d) {
+                        return d.data.CoachB;
+                    })
+                    .merge(node.select("text")).transition().duration(1000)
+                    .attr("dy", 3)
+                    .attr("x", function (d) {
+                        return d.children ? -1 * (this.getBBox().width + 6) : 6;
+                    })
+                    .attr("transform", function (d) {
+                        return "rotate(0)";
+                    });
+
+                link.enter().append("path")
+                    .attr("class", "link")
+                    .merge(link).transition().duration(1000)
+                    .attr("d", function (d) {
+                        return "M" + d.y + "," + d.x +
+                            "C" + (d.parent.y + 100) + "," + d.x +
+                            " " + (d.parent.y + 100) + "," + d.parent.x +
+                            " " + d.parent.y + "," + d.parent.x;
+                    });
+            }
+
+            node.group.append("circle")
+                .attr("r", 3.5)
+                .attr("fill", function (d) {
+                    return color(d.data.relationship)
+                });
+
+            // Toggle state
+            radialMode = !radialMode;
+        };
+
+        // run radial mode first!
+        toggleMode();
+    });
+</script>

@@ -1,51 +1,15 @@
+#-*- encoding:utf-8 -*-
+
 import json
 import re
 import operator
 from collections import Counter
+import nltk
+from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from rake_nltk import Rake
-
-NLTKlanguages = ["dutch", "finnish", "german", "italian",
-                 "portuguese", "spanish", "turkish", "danish", "english",
-                 "french", "hungarian", "norwegian", "russian", "swedish"]
-
-emoticons_str = r"""
-    (?:
-        [:=;] # Eyes
-        [oO\-]? # Nose (optional)
-        [D\)\]\(\]/\\OpP] # Mouth
-    )"""
-
-regex_str = [
-    emoticons_str,
-    r'<[^>]+>',  # HTML tags
-    r'(?:@[\w_]+)',  # @-mentions
-    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)",  # hash-tags
-    # URLs
-    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&amp;+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+',
-
-    r'(?:(?:\d+,?)+(?:\.?\d+)?)',  # numbers
-    r"(?:[a-z][a-z'\-_]+[a-z])",  # words with - and '
-    r'(?:[\w_]+)',  # other words
-    r'(?:\S)'  # anything else
-]
-
-tokens_re = re.compile(r'(' + '|'.join(regex_str) + ')',
-                       re.VERBOSE | re.IGNORECASE)
-emoticon_re = re.compile(r'^' + emoticons_str + '$',
-                         re.VERBOSE | re.IGNORECASE)
-
-
-def tokenize(s):
-    return tokens_re.findall(s)
-
-
-def preprocess(s, lowercase=False):
-    tokens = tokenize(s)
-    if lowercase:
-        tokens = [token if emoticon_re.search(
-            token) else token.lower() for token in tokens]
-    return tokens
+from nltk.book import FreqDist
+import string
+import pandas as pd
 
 
 def load_json(file_name):
@@ -62,10 +26,23 @@ def write_json(file_name, json_data):
     print 'writting done:' + file_name
 
 
-data = load_json('summer_transfer.json')['tweets']
+def cleanupDoc(s):
+    stopset = set(stopwords.words('english') +
+                  list(string.punctuation) + ['http', 'https'])
+    tokens = word_tokenize(s)
+    cleanup = [token.lower() for token in tokens if token.lower()
+               not in stopset and len(token) > 2]
+    return cleanup
+
+
+# data = load_json('summer_transfer.json')['tweets']
+data = load_json('transfer.json')['tweets']
 langs = []
-text = ""
-tokens = [preprocess(d['text']) for d in data.values()]
 
+text = '\n'.join([(d['text']) for d in data.values()])
 
-# print(list(set(langs)))
+fdist = FreqDist(cleanupDoc(text))
+freq = pd.DataFrame(dict(fdist), index=['freq']).T
+freq.sort_values('freq', ascending=False, inplace=True)
+# freq.to_csv('freq_winter')
+print(freq.head(100))
