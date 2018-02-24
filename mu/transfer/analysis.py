@@ -4,10 +4,10 @@ import json
 import re
 import operator
 from collections import Counter
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.book import FreqDist
+# import nltk
+# from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from nltk.book import FreqDist
 import string
 import pandas as pd
 
@@ -41,8 +41,20 @@ langs = []
 
 text = '\n'.join([(d['text']) for d in data.values()])
 
-fdist = FreqDist(cleanupDoc(text))
-freq = pd.DataFrame(dict(fdist), index=['freq']).T
-freq.sort_values('freq', ascending=False, inplace=True)
-# freq.to_csv('freq_winter')
-print(freq.head(100))
+# fdist = FreqDist(cleanupDoc(text))
+# freq = pd.DataFrame(dict(fdist), index=['freq']).T
+# freq.sort_values('freq', ascending=False, inplace=True)
+# # freq.to_csv('freq_winter')
+# print(freq.head(100))
+import Algorithmia
+input = [
+    text,
+    2,
+    5,
+    False,
+    True
+]
+input = text  # "An engineer is trying to design a faster submarine. \nWould she prefer to study a fish or a flock of birds?"
+client = Algorithmia.client('simkxwJR9Pt23FxpLaN6755Gq4U1')
+algo = client.algo('dbgannon/KeyPhrases/0.1.1')
+print(algo.pipe(input))
