@@ -5,3 +5,5 @@ hupu/nba_py/
 
 hupu/statsnba-playbyplay/
 owl/config.py
+maomao/config.py
+*.pyc
