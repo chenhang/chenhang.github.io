@@ -1,6 +1,6 @@
 #-*- coding: utf8 -*-
 
-from requests import get
+from requests import get, Session
 from bs4 import BeautifulSoup
 import os
 import leancloud
@@ -130,8 +130,9 @@ def get_maomaos():
         print(start)
         if start > 20:
             break
-        res = get(api(start=start), headers=HEADERS,
-                  timeout=50, allow_redirects=False)
+        sess = Session()
+        res = sess.get(api(start=start), headers=HEADERS,
+                       timeout=50, allow_redirects=False)
         start += 10
         table = BeautifulSoup(res.content, "html.parser").find('table')
         trs = table.findAll('tr')
@@ -140,8 +141,10 @@ def get_maomaos():
             detail_url = BASE_URL + tr.find('a').attrs['href']
             desc, _, location, _, breed, _ = tr.find(
                 'div').text.strip().split('\n\t\t\t\t\t\t\t')
-            detail_res = get(detail_url, headers=HEADERS,
-                             timeout=50, allow_redirects=False)
+            detail_res = sess.get(
+                detail_url, headers=HEADERS, timeout=50, allow_redirects=False)
+            if detail_res.status_code == 301:
+                continue
             soup = BeautifulSoup(detail_res.content, "html.parser")
             detail_table, info_table, _ = soup.findAll('table')
             img_tr, content_tr = detail_table.findAll("tr") if len(

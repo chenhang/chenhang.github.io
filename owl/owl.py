@@ -65,6 +65,10 @@ def data_file_name(name):
     return 'data/' + name + '.json'
 
 
+def object_id_key(name, id_value):
+    return name + "_" + str(id_value)
+
+
 def update_data():
     for name, api in APIS.items():
         res = get(api, headers=HEADERS, timeout=50).json()
@@ -73,12 +77,10 @@ def update_data():
 
 def leancloud_object(name, data, id_key='id'):
     DataObject = leancloud.Object.extend(name)
-    query = DataObject.query
-    query.equal_to(id_key, data[id_key])
-    try:
-        data_object = query.first()
-    except BaseException as e:
-        print(str(e))
+    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP:
+        data_object = DataObject.create_without_data(
+            OBJECT_ID_MAP[object_id_key(name, data[id_key])])
+    else:
         data_object = DataObject()
     for key, value in data.items():
         data_object.set(key, value)
@@ -130,6 +132,10 @@ def upload_data():
         for item in info['data']:
             data_objects.append(leancloud_object(name, item, info['id_key']))
         leancloud.Object.save_all(data_objects)
+        for data_object in data_objects:
+            OBJECT_ID_MAP[object_id_key(
+                name, item[info['id_key']])] = data_object.id
+        write_json('data/object_id_map.json', OBJECT_ID_MAP)
 
 
 def parse_schedule():
@@ -172,5 +178,6 @@ def parse_schedule():
 
 
 if __name__ == '__main__':
-    update_data()
+    OBJECT_ID_MAP = load_json('data/object_id_map.json')
+    # update_data()
     upload_data()
