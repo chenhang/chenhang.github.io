@@ -48,9 +48,12 @@ APIS = {'live_match': live_match_api(), 'schedule': schedule_api(),
 
 
 def load_json(file_name):
-    with open(file_name) as json_data:
-        d = json.load(json_data)
-        return d
+    if os.path.exists(file_name):
+        with open(file_name) as json_data:
+            d = json.load(json_data)
+            return d
+    else:
+        return {}
 
 
 def write_json(file_name, json_data):
@@ -67,6 +70,21 @@ def data_file_name(name):
 
 def object_id_key(name, id_value):
     return name + "_" + str(id_value)
+
+
+def ordered(obj):
+    if isinstance(obj, dict):
+        return sorted((k, ordered(v)) for k, v in obj.items())
+    if isinstance(obj, list):
+        return sorted(ordered(x) for x in obj)
+    if obj is None:
+        return ""
+    else:
+        return obj
+
+
+def data_changed(local_item, item):
+    return ordered(local_item) != ordered(item)
 
 
 def update_data():
@@ -128,14 +146,25 @@ def upload_data():
 
     for name, info in object_data.items():
         data_objects = []
-
+        LEANCLOUD_OBJECT_DATA = load_json(os.path.join('leancloud_data', name))
+        data_dict = {}
         for item in info['data']:
-            data_objects.append(leancloud_object(name, item, info['id_key']))
-        leancloud.Object.save_all(data_objects)
+            if data_changed(LEANCLOUD_OBJECT_DATA.get(object_id_key(
+                    name, item.get(info['id_key'])), {}), item):
+                data_objects.append(leancloud_object(
+                    name, item, info['id_key']))
+            data_dict[item.get(info['id_key'])] = item
+        print(name + " Total Count:" + str(len(info['data'])))
+        print(name + " Changed Count:" + str(len(data_objects)))
+        if len(data_objects) > 0:
+            leancloud.Object.save_all(data_objects)
         for data_object in data_objects:
             OBJECT_ID_MAP[object_id_key(
-                name, item[info['id_key']])] = data_object.id
+                name, data_object.get(info['id_key']))] = data_object.id
+            LEANCLOUD_OBJECT_DATA[object_id_key(
+                name, data_object.get(info['id_key']))] = data_dict[data_object.get(info['id_key'])]
         write_json('data/object_id_map.json', OBJECT_ID_MAP)
+        write_json(os.path.join('leancloud_data', name), LEANCLOUD_OBJECT_DATA)
 
 
 def parse_schedule():
@@ -162,7 +191,6 @@ def parse_schedule():
         for match_info in stage_info['matches']:
             match = {'stageId': stage_info['id'],
                      'stageName': stage_info['name']}
-            # print(match_info)
             if match_info['startDateTS']:
                 year_no, week_no, week_day = datetime.datetime.fromtimestamp(
                     match_info['startDateTS'] / 1000).isocalendar()
@@ -178,6 +206,7 @@ def parse_schedule():
 
 
 if __name__ == '__main__':
+    LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('data/object_id_map.json')
     # update_data()
     upload_data()
