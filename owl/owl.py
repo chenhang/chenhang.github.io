@@ -1,12 +1,10 @@
 #-*- coding: utf8 -*-
 
 from requests import get
+from util import *
 import os
 import leancloud
-import json
-import logging
 import config
-import datetime
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -47,44 +45,12 @@ APIS = {'live_match': live_match_api(), 'schedule': schedule_api(),
         'teams': teams_api(), 'standings': standings_api(), 'maps': maps_api()}
 
 
-def load_json(file_name):
-    if os.path.exists(file_name):
-        with open(file_name) as json_data:
-            d = json.load(json_data)
-            return d
-    else:
-        return {}
-
-
-def write_json(file_name, json_data):
-    print('writting:' + file_name)
-    with open(file_name, 'w') as outfile:
-        json.dump(json_data, outfile)
-        return json_data
-    print('writting done:' + file_name)
-
-
 def data_file_name(name):
     return 'data/' + name + '.json'
 
 
 def object_id_key(name, id_value):
     return name + "_" + str(id_value)
-
-
-def ordered(obj):
-    if isinstance(obj, dict):
-        return sorted((k, ordered(v)) for k, v in obj.items())
-    if isinstance(obj, list):
-        return sorted(ordered(x) for x in obj)
-    if obj is None:
-        return ""
-    else:
-        return obj
-
-
-def data_changed(local_item, item):
-    return ordered(local_item) != ordered(item)
 
 
 def update_data():
@@ -95,7 +61,7 @@ def update_data():
 
 def leancloud_object(name, data, id_key='id'):
     DataObject = leancloud.Object.extend(name)
-    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP:
+    if object_id_key(name, data[id_key]) in OBJECT_ID_MAP and name not in []:
         data_object = DataObject.create_without_data(
             OBJECT_ID_MAP[object_id_key(name, data[id_key])])
     else:
@@ -137,12 +103,31 @@ def upload_data():
     standings = load_json(data_file_name('standings'))
     ranks = standings['ranks']
     stages, matches = parse_schedule()
-    object_data = {'League': {'data': [league], 'id_key': 'id'},
-                   'Division': {'data': divisions, 'id_key': 'id'},
-                   'Competitor': {'data': competitors, 'id_key': 'id'},
-                   'Rank': {'data': ranks, 'id_key': 'placement'},
-                   'Stage': {'data': stages, 'id_key': 'id'},
-                   'Match': {'data': matches, 'id_key': 'id'}}
+    composition_stats = load_json('data/composition_stats.json')
+    player_hero_stats = load_json('data/player_hero_stats.json')
+    player_stats = load_json('data/player_stats.json')
+    team_hero_stats = load_json('data/team_hero_stats.json')
+    player_ranks = load_json('data/player_ranks.json')
+    hero_ranks = load_json('data/hero_ranks.json')
+    player_ranks = load_json('data/player_ranks.json')
+    hero_ranks = load_json('data/hero_ranks.json')
+    player_pick_rate = load_json('data/player_pick_rate.json')
+    team_pick_rate = load_json('data/team_pick_rate.json')
+
+    object_data = {
+        'League': {'data': [league], 'id_key': 'id'},
+        'Division': {'data': divisions, 'id_key': 'id'},
+        'Competitor': {'data': competitors, 'id_key': 'id'},
+        'Rank': {'data': ranks, 'id_key': 'placement'},
+        'Stage': {'data': stages, 'id_key': 'id'},
+        'Match': {'data': matches, 'id_key': 'id'},
+        'CompositionUsage': {'data': composition_stats, 'id_key': 'id'},
+        'TeamHeroUsage': {'data': team_hero_stats, 'id_key': 'id'},
+        'PlayerRank': {'data': player_ranks, 'id_key': 'id'},
+        'HeroRank': {'data': hero_ranks, 'id_key': 'id'},
+        'PlayerPickRate': {'data': player_pick_rate, 'id_key': 'id'},
+        'TeamPickRate': {'data': team_pick_rate, 'id_key': 'id'},
+    }
 
     for name, info in object_data.items():
         data_objects = []
@@ -156,6 +141,14 @@ def upload_data():
             data_dict[item.get(info['id_key'])] = item
         print(name + " Total Count:" + str(len(info['data'])))
         print(name + " Changed Count:" + str(len(data_objects)))
+        # i = 0
+        # batch_size = 400
+        # while True:
+        #     if len(data_objects[i:i+batch_size]) > 0:
+        #         leancloud.Object.save_all(data_objects[i:i+batch_size])
+        #         i += batch_size
+        #     else:
+        #         break
         if len(data_objects) > 0:
             leancloud.Object.save_all(data_objects)
         for data_object in data_objects:
@@ -171,6 +164,7 @@ def parse_schedule():
     schedule = load_json(data_file_name('schedule'))
     season_start_date = schedule['data']['startDate']
     season_end_date = schedule['data']['endDate']
+    stage_ranks = {}
     # ['id', 'enabled', 'name', 'tournaments', 'matches']
     stages = []
     matches = []
@@ -198,6 +192,7 @@ def parse_schedule():
                     week_no + (current_year_no - year_no) * 52
             for key, value in match_info.items():
                 match[key] = value
+
             matches.append(match)
             stage_matches.append(match)
         stage['matches'] = stage_matches

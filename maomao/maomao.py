@@ -29,12 +29,12 @@ BASE_URL = "http://www.hoobly.com"
 OODLE_BASE_URL = "https://cats.oodle.com"
 
 
-def api(start=0):
-    return "http://www.hoobly.com/12030/1940/" + str(start) + "/"
+def api(start=0, location_id=12030):
+    return "http://www.hoobly.com/" + str(location_id) + "/1940/" + str(start) + "/"
 
 
-def oodle_api(start=0):
-    return "https://cats.oodle.com/ragdoll/15206/?o=" + str(start) + "&r=250"
+def oodle_api(start=0, r=250):
+    return "https://cats.oodle.com/ragdoll/15206/?o=" + str(start) + "&r=" + str(r)
 
 
 def load_json(file_name):
@@ -70,29 +70,34 @@ def leancloud_object(name, data, id_key='id'):
 
 
 def to_img_full_url(origin):
-    return "http:" + origin.replace("/thumbs/", "/full/")
+    if 'images/no_pic.jpg' in origin:
+        return 'https://ws1.sinaimg.cn/large/006tNc79gy1fovo1rjkghj305o05p40b.jpg'
+    else:
+        return "http:" + origin.replace("/thumbs/", "/full/")
 
 
 def to_str_date(origin):
     return datetime.datetime.strptime(origin, "%b %d %Y").date().strftime('%Y-%m-%d')
 
 
-def get_oodle_maomaos():
+def get_oodle_maomaos(r=250):
     start = 0
     maomaos = []
     ids = []
     while(True):
         print(start)
-        if start > 100:
+        if start > 44:
             break
-        res = get(oodle_api(start=start), headers=HEADERS, timeout=50)
-        start += 15
+        res = get(oodle_api(start=start, r=r),
+                  headers=HEADERS, timeout=50)
         table = BeautifulSoup(res.content, "html.parser").find('ol')
         trs = table.findAll('li', {'class': 'has-thumbnail'})
-        for tr in trs:
+        for i, tr in enumerate(trs):
             detail_url = OODLE_BASE_URL + \
                 tr.find('a', {'class': 'title-link'}).attrs['href']
             detail_res = get(detail_url, headers=HEADERS, timeout=50)
+            if detail_res.status_code == 301:
+                continue
             detail_url = detail_res.url
             soup = BeautifulSoup(detail_res.content, "html.parser")
             content_div = soup.find('div', {'id': 'listing-detail-container'})
@@ -101,6 +106,8 @@ def get_oodle_maomaos():
             values = [div.text.strip() for div in content_div.findAll(
                 'div', {'class': 'listing-attribute-value'})]
             info_dict = dict(zip(keys, values))
+            if 'reposted' in info_dict:
+                info_dict['posted'] = info_dict['reposted']
 
             if content_div.find('div', {'id': 'photo-view'}):
                 img_urls = [img.attrs['src'] for img in content_div.find(
@@ -121,12 +128,14 @@ def get_oodle_maomaos():
             if id in ids:
                 break
             ids.append(id)
-            maomao = {'id': id, 'title': tr.findAll('a')[1].text,
+            maomao = {'id': id, 'title': tr.findAll('a')[1].text, 'order': i + start * 15,
                       'updated': info_dict['posted'], 'content': info_dict['description'],
                       'main_img_url': img_urls[0], 'detail_url': detail_url, 'img_urls': img_urls}
             for key, value in info_dict.items():
                 new_key = 'desc' if key == 'description' else key
                 maomao[new_key] = value
+            maomao['is_bicolor'] = is_bi_color(
+                maomao['desc'] + ' ' + maomao['title'])
             maomaos.append(maomao)
             time.sleep(2)
         write_json("data/oodle_maomaos.json", maomaos)
@@ -134,23 +143,23 @@ def get_oodle_maomaos():
             "Maomao", maomao, id_key="id") for maomao in maomaos]
         leancloud.Object.save_all([leancloud_object(
             "Maomao", maomao, id_key="id") for maomao in maomaos])
+        start += 15
 
 
-def get_maomaos():
+def get_maomaos(location_id=12030):
     start = 0
     maomaos = []
     ids = []
     while(True):
         print(start)
-        if start > 20:
+        if start > 29:
             break
         sess = Session()
-        res = sess.get(api(start=start), headers=HEADERS,
+        res = sess.get(api(start=start, location_id=12030), headers=HEADERS,
                        timeout=50, allow_redirects=False)
-        start += 10
         table = BeautifulSoup(res.content, "html.parser").find('table')
         trs = table.findAll('tr')
-        for tr in trs:
+        for i, tr in enumerate(trs):
             img_url = to_img_full_url(tr.find('img').attrs['src'])
             detail_url = BASE_URL + tr.find('a').attrs['href']
             desc, _, location, _, breed, _ = tr.find(
@@ -168,24 +177,34 @@ def get_maomaos():
             posted = to_str_date(info_dict['Posted'])
             print(desc)
             img_urls = [to_img_full_url(img.attrs['src'])
-                        for img in img_tr.findAll('img')]
+                        for img in img_tr.findAll('img')] if not isinstance(img_tr, list) else ["https://ws1.sinaimg.cn/large/006tNc79gy1fovo1rjkghj305o05p40b.jpg"]
             id = detail_url.split('/')[3]
             if id in ids:
                 break
             ids.append(id)
             maomaos.append({'id': detail_url.split('/')[3], 'title': tr.find('img').attrs['alt'],
-                            "desc": desc, 'location': location,
+                            "desc": desc, 'location': location, 'order': i + start * 15,
                             'posted': to_str_date(info_dict['Posted']), 'updated': to_str_date(info_dict['Updated']),
                             'breed': breed, 'price': tr.find('span').text, 'content': content_tr.text.strip(),
-                            'main_img_url': img_url, 'detail_url': detail_url, 'img_urls': img_urls})
+                            'main_img_url': img_url, 'detail_url': detail_url, 'img_urls': img_urls, 'is_bicolor': is_bi_color((desc + ' ' + tr.find('img').attrs['alt']).lower())})
             time.sleep(2)
         write_json("data/maomaos.json", maomaos)
         leancloud_objects = [leancloud_object(
             "Maomao", maomao, id_key="id") for maomao in maomaos]
         leancloud.Object.save_all([leancloud_object(
             "Maomao", maomao, id_key="id") for maomao in maomaos])
+        start += 10
+
+
+def is_bi_color(text):
+    for string in ['bicolor', 'biocoloured', 'bicolour', 'bi-color', 'bi-colour']:
+        if string in text:
+            return True
+    return False
 
 
 if __name__ == '__main__':
-    get_maomaos()
-    get_oodle_maomaos()
+    # get_maomaos(location_id=12030)
+    # get_maomaos(location_id=184)
+    # get_oodle_maomaos(r=250)
+    get_oodle_maomaos(r='country')
