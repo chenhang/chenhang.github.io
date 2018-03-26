@@ -37,12 +37,17 @@ def standings_api():
     return "https://api.overwatchleague.cn/standings?expand=team.content&locale=zh_CN"
 
 
+def standings_v2_api():
+    return "https://api.overwatchleague.cn/v2/standings?expand=team.content&locale=zh_CN"
+
+
 def maps_api():
     return "https://api.overwatchleague.cn/maps"
 
 
 APIS = {'live_match': live_match_api(), 'schedule': schedule_api(),
-        'teams': teams_api(), 'standings': standings_api(), 'maps': maps_api()}
+        'teams': teams_api(), 'standings': standings_api(),
+        'maps': maps_api(), 'standings_v2': standings_v2_api()}
 
 
 def data_file_name(name):
@@ -71,7 +76,37 @@ def leancloud_object(name, data, id_key='id'):
     return data_object
 
 
+def parse_standings():
+    standings = load_json(data_file_name('standings'))
+    ranks = standings['ranks']
+    standings_v2 = load_json(data_file_name('standings_v2'))
+    stage_ranks = []
+    ranks_by_id = {rank['id']: rank for rank in standings_v2['data']}
+    stages, matches = parse_schedule()
+    stages_by_id = {('stage' + str(stage['id'])): stage for stage in stages}
+    stage_ranks_keys = ['id', 'divisionId', 'name', 'abbreviatedName',
+                        'logo', 'colors']
+    for rank in standings_v2['data']:
+        stage_rank_basic = {key: rank[key] for key in stage_ranks_keys}
+        for key, name in [('preseason', "季前赛"), ('league', "OWL")]:
+            if len(rank[key]) == 0:
+                continue
+            stage_rank = {**stage_rank_basic, **rank[key]}
+            stage_rank['placement_id'] = '_'.join(
+                [key, str(stage_rank['placement'])])
+            stage_rank['stage_name'] = name
+            stage_ranks.append(stage_rank)
+        for key, records in rank['stages'].items():
+            stage_rank = {**stage_rank_basic, **rank['stages'][key]}
+            stage_rank['placement_id'] = '_'.join(
+                [key, str(stage_rank['placement'])])
+            stage_rank['stage_name'] = stages_by_id[key]['name']
+            stage_ranks.append(stage_rank)
+    return stages, matches, ranks, stage_ranks, ranks_by_id
+
+
 def upload_data():
+    stages, matches, ranks, stage_ranks, ranks_by_id = parse_standings()
     teams = load_json(data_file_name('teams'))
     # KEYS
     # ['owl_divisions', 'description', 'availableLanguages',
@@ -98,11 +133,9 @@ def upload_data():
         competitor = {key: item['competitor'][key] for key in competitors_keys}
         competitor['owl_division_info'] = division_mapping[str(
             competitor['owl_division'])]
+        competitor['ranks'] = ranks_by_id[competitor['id']]
         competitors.append(competitor)
 
-    standings = load_json(data_file_name('standings'))
-    ranks = standings['ranks']
-    stages, matches = parse_schedule()
     composition_stats = load_json('data/composition_stats.json')
     player_hero_stats = load_json('data/player_hero_stats.json')
     player_stats = load_json('data/player_stats.json')
@@ -119,6 +152,7 @@ def upload_data():
         'Division': {'data': divisions, 'id_key': 'id'},
         'Competitor': {'data': competitors, 'id_key': 'id'},
         'Rank': {'data': ranks, 'id_key': 'placement'},
+        'StageRank': {'data': stage_ranks, 'id_key': 'placement_id'},
         'Stage': {'data': stages, 'id_key': 'id'},
         'Match': {'data': matches, 'id_key': 'id'},
         'CompositionUsage': {'data': composition_stats, 'id_key': 'id'},
@@ -198,7 +232,9 @@ def parse_schedule():
 
             matches.append(match)
             stage_matches.append(match)
-        stage['matches'] = stage_matches
+        del stage['matches']  # stage_matches
+        for week in stage['weeks']:
+            del week['matches']
         stages.append(stage)
     return stages, matches
 
@@ -206,5 +242,5 @@ def parse_schedule():
 if __name__ == '__main__':
     LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('data/object_id_map.json')
-    update_data()
+    # update_data()
     upload_data()
