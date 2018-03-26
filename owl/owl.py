@@ -136,6 +136,9 @@ def upload_data():
         for item in info['data']:
             if data_changed(LEANCLOUD_OBJECT_DATA.get(object_id_key(
                     name, item.get(info['id_key'])), {}), item):
+                if info['id_key'] not in item:
+                    print(item, name)
+                    continue
                 data_objects.append(leancloud_object(
                     name, item, info['id_key']))
             data_dict[item.get(info['id_key'])] = item

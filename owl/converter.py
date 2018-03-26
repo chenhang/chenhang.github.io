@@ -60,6 +60,7 @@ for item in player_stats:
             player_stats_avg_min[key] = item
     else:
         print(item['name'])
+        del item
 
 player_ranks = load_json('stats/player_ranks.json')
 hero_ranks = load_json('stats/hero_ranks.json')
@@ -80,6 +81,7 @@ for item in player_ranks:
             item[stat_key] = player_stats_avg_min[key][stat_key]
     else:
         print(item['name'])
+        del item
 
 for item in hero_ranks:
     key = item['name'].lower().replace('bigg00se', 'biggoose')
@@ -95,6 +97,7 @@ for item in hero_ranks:
 
     else:
         print(item['name'])
+        del item
 
 # TEAMS
 team_hero_stats = load_json('stats/team_hero_stats.json')
@@ -111,23 +114,25 @@ player_heros = load_json('stats/player_heros.json')
 player_usage = {}
 for player_hero in player_heros:
     key = player_hero['playerName'].lower().replace('bigg00se', 'biggoose')
-    if key not in player_usage:
-        player_usage[key] = {'player_info': players[key],
-                             'total_games': 0, 'total_time': 0, 'hero_usage': {}}
-        player_usage[key]['team_info'] = {team_key: teams_by_id[players[key]
-                                                                ['team']['id']][team_key] for team_key in competitors_keys}
-        player_usage[key]['team_info']['players'] = []
-        player_usage[key]['hero_usage'] = {}
-        player_usage[key]['id'] = players[key]['player']['id']
-    hero_key = player_hero['nameCSFriendly'].replace('soldier76', 'soldier-76')
-    if hero_key not in player_usage[key]['hero_usage']:
-        player_usage[key]['hero_usage'][hero_key] = {'games': 0, 'time': 0}
-    player_usage[key]['total_games'] += int(player_hero['gameNumber'])
-    player_usage[key]['total_time'] += int(player_hero['timePlayed'])
-    player_usage[key]['hero_usage'][hero_key]['games'] += int(
-        player_hero['gameNumber'])
-    player_usage[key]['hero_usage'][hero_key]['time'] += int(
-        player_hero['timePlayed'])
+    if key in players:
+        if key not in player_usage:
+            player_usage[key] = {'player_info': players[key],
+                                 'total_games': 0, 'total_time': 0, 'hero_usage': {}}
+            player_usage[key]['team_info'] = {team_key: teams_by_id[players[key]
+                                                                    ['team']['id']][team_key] for team_key in competitors_keys}
+            player_usage[key]['team_info']['players'] = []
+            player_usage[key]['hero_usage'] = {}
+            player_usage[key]['id'] = players[key]['player']['id']
+        hero_key = player_hero['nameCSFriendly'].replace(
+            'soldier76', 'soldier-76')
+        if hero_key not in player_usage[key]['hero_usage']:
+            player_usage[key]['hero_usage'][hero_key] = {'games': 0, 'time': 0}
+        player_usage[key]['total_games'] += int(player_hero['gameNumber'])
+        player_usage[key]['total_time'] += int(player_hero['timePlayed'])
+        player_usage[key]['hero_usage'][hero_key]['games'] += int(
+            player_hero['gameNumber'])
+        player_usage[key]['hero_usage'][hero_key]['time'] += int(
+            player_hero['timePlayed'])
 
 player_pick_rate = []
 for key, player_hero in player_usage.items():
