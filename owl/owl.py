@@ -92,12 +92,14 @@ def parse_standings():
             if len(rank[key]) == 0:
                 continue
             stage_rank = {**stage_rank_basic, **rank[key]}
+            stage_rank['stage_id'] = key
             stage_rank['placement_id'] = '_'.join(
                 [key, str(stage_rank['placement'])])
             stage_rank['stage_name'] = name
             stage_ranks.append(stage_rank)
         for key, records in rank['stages'].items():
             stage_rank = {**stage_rank_basic, **rank['stages'][key]}
+            stage_rank['stage_id'] = key.split('stage')[-1]
             stage_rank['placement_id'] = '_'.join(
                 [key, str(stage_rank['placement'])])
             stage_rank['stage_name'] = stages_by_id[key]['name']
