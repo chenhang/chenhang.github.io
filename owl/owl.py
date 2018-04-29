@@ -149,6 +149,11 @@ def upload_data():
     player_pick_rate = load_json('data/player_pick_rate.json')
     team_pick_rate = load_json('data/team_pick_rate.json')
 
+    for team_hero_stat in team_hero_stats:
+        team_hero_stat['ranks'] = ranks_by_id[team_hero_stat['id']]
+        team_hero_stat['owl_division_info'] = division_mapping[str(
+            team_hero_stat['owl_division'])]
+
     object_data = {
         'League': {'data': [league], 'id_key': 'id'},
         'Division': {'data': divisions, 'id_key': 'id'},
@@ -244,5 +249,5 @@ def parse_schedule():
 if __name__ == '__main__':
     LEANCLOUD_OBJECT_DATA = {}
     OBJECT_ID_MAP = load_json('data/object_id_map.json')
-    # update_data()
+    update_data()
     upload_data()
