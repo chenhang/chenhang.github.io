@@ -1,8 +1,9 @@
 .idea
 hupu/py-Goldsberry/
 
-hupu/nba_py/
 
+hupu/nba_py/
+lst/config.py
 hupu/statsnba-playbyplay/
 owl/config.py
 maomao/config.py
