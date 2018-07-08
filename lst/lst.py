@@ -1,7 +1,8 @@
 import requests
 from urllib.parse import urlencode
 import json
-from config import url
+from config import url, _url
+
 
 def load_json(file_name, default=dict):
     if os.path.exists(file_name):
@@ -21,14 +22,15 @@ def write_json(file_name, json_data):
 
 
 d = requests.get(url).json()
+f = requests.get(_url).json()
 
 r = []
 
-for dd in d['data']:
+for dd in (d['data'] + f['data']):
     if dd['type'] == 'PromoteCard':
         path = 'pages/base?{0}'.format(urlencode({'api': dd['detail']['api']}))
         r.append([dd['subTitle'], dd['title'], path])
         print(dd['subTitle'], dd['title'], path)
 
-
+r.reverse()
 write_json('lst.json', r)
