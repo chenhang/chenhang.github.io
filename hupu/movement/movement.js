@@ -40,12 +40,15 @@ function clickPrev() {
 function clickPause() {
     pause = !pause
 }
+
 function drawWithAPI(url) {
     d3.json(url, function (error, data) {
         if (error) {
             console.log(error);
             eventID++;
-            if (eventID > 55) { eventID = 2};
+            if (eventID > 55) {
+                eventID = 2
+            };
             drawWithAPI(API_PATH(eventID));
         } else {
             console.log(data)
@@ -56,11 +59,11 @@ function drawWithAPI(url) {
 
 function drawMovement(data) {
     var dataSet = parseData(data);
+    console.log(dataSet)
     var players = dataSet.players;
     var movements = dataSet.moments;
     var max_ball_height = 0;
-    movements.map
-    (function (m) {
+    movements.map(function (m) {
         if (max_ball_height < m.ball[0].z) {
             max_ball_height = m.ball[0].z;
         }
@@ -123,7 +126,7 @@ function drawMovement(data) {
             .text(function (d) {
                 var player = players[d.playerid]
                 if (player) {
-                    return player.jersey// + '-' + player.position
+                    return player.jersey // + '-' + player.position
                 } else {
                     return ''
                 }

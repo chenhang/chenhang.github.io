@@ -364,7 +364,7 @@ function drawForceDirect(data) {
 		//  .attr("class", function(d) { return "link " + d.type; })
 		.attr("class", "link")
 		.style('stroke-width', function (d) {
-			return d.time / 20
+			return d.time / 40
 		})
 		.style('stroke', 'orange')
 		.style('stroke-opacity', 0.8)
@@ -380,7 +380,7 @@ function drawForceDirect(data) {
 	// add the nodes
 	node.append("circle")
 		.attr("r", function (d) {
-			return d.passes / 50
+			return d.passes / 100
 		})
 		.style('fill', '#ccc')
 		.style('stroke', '#fff')

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Movements</title>
+    <script src="d3/d3.min.js"></script>
+</head>
+
+<body>
+
+    <?xml version="1.0" encoding="UTF-8"?>
+    <svg width="1236px" height="929px" viewBox="0 0 1236 929" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+        <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+        <title>empty_pitch</title>
+        <desc>Created with Sketch.</desc>
+        <defs>
+            <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="86.0137312%" gradientTransform="translate(0.500000,0.500000),scale(0.746058,1.000000),rotate(90.000000),translate(-0.500000,-0.500000)"
+                id="radialGradient-1">
+                <stop stop-color="#EEEC92" stop-opacity="0.379981884" offset="0%"></stop>
+                <stop stop-color="#CCC6C6" stop-opacity="0.198982565" offset="45.9469834%"></stop>
+                <stop stop-color="#000000" stop-opacity="0.168223505" offset="100%"></stop>
+            </radialGradient>
+            <rect id="path-2" x="13.4934498" y="13.502907" width="1209.0131" height="901.994186"></rect>
+        </defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="Desktop-HD" transform="translate(-102.000000, -48.000000)">
+                <g id="empty_pitch" transform="translate(102.000000, 48.000000)">
+                    <rect id="Rectangle-2" fill="#83C187" x="0" y="0" width="1236" height="929"></rect>
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <g id="Bg">
+                        <use fill="#83C187" fill-rule="evenodd" xlink:href="#path-2"></use>
+                        <use fill="url(#radialGradient-1)" fill-rule="evenodd" style="mix-blend-mode: overlay;"
+                            xlink:href="#path-2"></use>
+                        <rect stroke="#FFFFFF" stroke-width="5.4" stroke-linejoin="square" x="16.1934498" y="16.202907"
+                            width="1203.6131" height="896.594186"></rect>
+                    </g>
+                    <ellipse id="left-top-corner" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" cx="16.1921397"
+                        cy="16.2034884" rx="62.068559" ry="62.1139535"></ellipse>
+                    <ellipse id="left-bottom-corner" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" cx="16.1921397"
+                        cy="912.796512" rx="62.068559" ry="62.1139535"></ellipse>
+                    <ellipse id="right-bottom-corner" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" cx="1219.80786"
+                        cy="912.796512" rx="62.068559" ry="62.1139535"></ellipse>
+                    <ellipse id="right-top-corner" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" cx="1219.80786"
+                        cy="16.2034884" rx="62.068559" ry="62.1139535"></ellipse>
+                    <path d="M1144.24323,342.974419 L1219.80917,342.974419 L1219.80917,586.025581 L1144.24323,586.025581 L1144.24323,342.974419 Z"
+                        id="right-in-box" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)"></path>
+                    <path d="M1009.30873,202.544186 L1219.80917,202.544186 L1219.80917,726.455814 L1009.30873,726.455814 L1009.30873,202.544186 Z"
+                        id="right-box" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)"></path>
+                    <path d="M16.1908297,202.544186 L226.691266,202.544186 L226.691266,726.455814 L16.1908297,726.455814 L16.1908297,202.544186 Z"
+                        id="left-box" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)"></path>
+                    <rect id="left-in-box" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" x="16.1908297" y="342.974419"
+                        width="75.5659389" height="243.051163"></rect>
+                    <path d="M226.689956,367.27907 C226.689956,367.27907 286.061135,375.380814 286.061135,464.5 C286.061135,553.619186 226.689956,561.72093 226.689956,561.72093"
+                        id="left-top-circle" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)"></path>
+                    <path d="M949.938865,367.27907 C949.938865,367.27907 1009.31004,375.380814 1009.31004,464.5 C1009.31004,553.619186 949.938865,561.72093 949.938865,561.72093"
+                        id="right-top-circle" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" transform="translate(979.624454, 464.500000) scale(-1, 1) translate(-979.624454, -464.500000) "></path>
+                    <ellipse id="Oval-2" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)" cx="618" cy="464.5" rx="132.234498"
+                        ry="132.32907"></ellipse>
+                    <path d="M618,13.502907 L618,915.497093" id="Path-2" stroke="#FFFFFF" stroke-width="5.4" mask="url(#mask-3)"></path>
+                </g>
+            </g>
+        </g>
+    </svg>
+    <br>
+    <button onclick="clickPlay()">START</button>
+    <button onclick="clickPause()">PAUSE</button>
+    <button onclick="clickNext()">NEXT</button>
+    <button onclick="clickPrev()">PREV</button>
+    <script type="text/javascript" src="movement.js"></script>
+
+    <!--<script type="text/javascript" src="movePath.js"></script>-->
+    <!--<script type="text/javascript" src="shotHeight.js"></script>-->
+</body>
+
+</html>
